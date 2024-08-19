@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
+.dark {
+  background-color: #1e201e;
+  color: #cacaca;
+  transition: all 325ms linear;
+}
+
+.light {
+  background-color: #f7f7f7;
+  color: #19191a;
+  transition: all 325ms linear;
+}
+
+.second {
+  background-color: #1e201e;
+}
+
+.loader {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #fff;
+  border-bottom-color: #47752d;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.triangle {
+  background: none;
+  width: 0;
+  height: 0;
+  border-left: 19px solid transparent; /* Adjust the size of the triangle */
+  border-right: 19px solid transparent;
+  border-bottom: 38px solid; /* Color of the triangle */
+  transform: rotate(90deg); /* Rotate to position the triangle appropriately */
+  position: absolute;
+  right: 0;
+  bottom: 22px;
+  transform: translateY(50%) rotate(-90deg);
+}
+
+/* background-color: #121212;
+  color: #E0E0E0; */
+
+.custom-quill .ql-toolbar {
+  background-color: #1a263a; /* Background color */
+  color: white;
+}
+
+.custom-quill .ql-toolbar .ql-formats button,
+.custom-quill .ql-toolbar .ql-formats button .ql-stroke {
+  color: white; /* Button icon color */
+}
+
+.custom-quill .ql-toolbar .ql-formats button:hover,
+.custom-quill .ql-toolbar .ql-formats button:hover .ql-stroke {
+  color: #000000; /* Hover color */
+}
+
+/* Optional: Customize dropdown menus */
+.custom-quill .ql-toolbar .ql-picker {
+  color: white;
+  background-color: #2c3e50;
+}
+
+.custom-quill .ql-toolbar .ql-picker-options {
+  background-color: #34495e;
+  color: white;
+}
+
+.carousel-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.carousel-wrapper {
+  display: flex;
+  transition: transform 0.7s ease-in-out;
+}
+
+.carousel-slide {
+  flex: 0 0 100%;
+  min-width: 100%;
+}
