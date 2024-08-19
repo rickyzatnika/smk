@@ -8,7 +8,7 @@ import Image from 'next/image';
 import useSWR from 'swr';
 
 const fetcher = (...args) => () => fetch(...args).then(res => res.json());
-const SITE_KEY = "6Lf7CR4qAAAAAJ7hgQnouK4fA0c58Z1fxEm_6d5a";
+const SITE_KEY = "6LeRPioqAAAAAL_-rU_1U5K45KefMJKwKoSHubmO";
 
 const Daftar = () => {
 
