@@ -15,7 +15,7 @@ const Footer = () => {
       <footer className="bg-gray-200 rounded-tr-2xl rounded-tl-2xl shadow dark:bg-[#0C0C0C] ">
         <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
           <div className="md:flex md:items-center md:justify-between">
-            <Link prefetch={false} href="/" className="w-fit flex flex-col gap-3 items-start mb-4 sm:mb-0  rtl:space-x-reverse">
+            <Link prefetch={false} href="/" className="w-fit flex flex-col gap-3 items-start md:items-center mb-4 sm:mb-0  rtl:space-x-reverse">
               <Image src="/logo-smk.png" priority={true} width={260} height={160} className="object-contain w-80 h-40" alt="Logo SMK ICB" />
               <span className="text-xs sm:text-sm text-gray-400 mb-6 md:mb-0" >PROJECT TEST.</span>
             </Link>
