@@ -38,7 +38,7 @@ export default function BrainstormingPage() {
             <div className='w-full flex uppercase font-medium bg-lime-600 py-3 items-center justify-between px-8'>
               <h1 className='text-center text-white text-lg'>Diskusi Umum</h1>
             </div>
-            {data.sessions.map((session) => (
+            {data?.sessions?.map((session) => (
               <div key={session?._id} >
                 <div className='px-2 py-2 md:px-8 md:py-4 flex flex-col-reverse md:flex-row justify-between items-start gap-1 md:gap-4 border-b pb-3 border-gray-400 dark:border-gray-500 bg-gray-200/30 dark:bg-[#333] '>
                   <Link href={`/forum-diskusi/${session?._id}`} className='flex flex-col basis-auto w-full max-w-xl hover:underline '>
@@ -69,7 +69,7 @@ export default function BrainstormingPage() {
         <div className='col-span-12 md:col-span-3 relative md:sticky top-0 md:top-36 w-full h-full md:h-96 bg-gray-200/30 dark:bg-[#333] p-5 rounded shadow-lg shadow-gray-300 dark:shadow-gray-950/10'>
           <h1 className='py-3 font-medium border-b mb-3 border-gray-400 dark:border-gray-500 text-gray-600 dark:text-gray-400'>BERITA TERBARU</h1>
           <div className='flex flex-col items-center gap-4 justify-center'>
-            {limitedData.map((n, i) => (
+            {limitedData?.map((n, i) => (
               <Link href={`/berita/${n?.slug}`} key={i} className='flex gap-2 items-start py-2 hover:underline '>
                 <Image src={n?.imageUrl} alt={n?.title} width={40} height={40} priority={true} className='rounded-full w-12 h-12 object-contain' />
                 <h3 className='text-sm text-gray-700 dark:text-gray-200/80 '>{n?.title}</h3>
