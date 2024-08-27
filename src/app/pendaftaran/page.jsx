@@ -8,7 +8,7 @@ import useSWR from 'swr';
 import { useRouter } from 'next/navigation';
 
 const fetcher = (...args) => () => fetch(...args).then(res => res.json());
-const SITE_KEY = "6LeRPioqAAAAAL_-rU_1U5K45KefMJKwKoSHubmO";
+const SITE_KEY = "6LfvlTAqAAAAAMzMIuN0khq4pWXKTuWltPriM1zc";
 
 const Daftar = () => {
 
