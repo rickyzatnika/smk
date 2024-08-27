@@ -13,7 +13,7 @@ const AuthLink = () => {
 
 
   return (
-    <div className='ml-3 md:ml-4 flex items-center gap-2 pb-3'>
+    <div className='ml-3 md:ml-4 flex items-center gap-2 pb-0 md:pb-3'>
       {status === "authenticated" && (
         <p className="text-gray-500  block text-xs capitalize antialiased font-medium dark:text-gray-300">Hi, {session?.user?.name}</p>
       )}

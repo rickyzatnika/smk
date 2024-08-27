@@ -10,6 +10,10 @@ const MuridSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    gender: {
+      type: String,
+      required: true,
+    },
     ttl: {
       type: String,
       required: true,
@@ -32,6 +36,10 @@ const MuridSchema = new mongoose.Schema(
     // Mengubah menjadi array of strings
     img: {
       type: String,
+    },
+    isAccepted: {
+      type: Boolean,
+      default: false,
     },
   },
   {

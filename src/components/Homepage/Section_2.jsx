@@ -41,7 +41,7 @@ const SectionTwo = () => {
             <Link className="py-1 px-2 text-xs rounded bg-lime-500 shadow text-white" href="/news">Lihat Semua</Link>
           </div>
           {limitedData?.map((n, i) => (
-            <Link className="flex flex-col md:flex-row items-start gap-6 mb-6 pb-6 border-b border-gray-600" href={`/news/${n?.slug}`} key={i}>
+            <Link className="flex flex-col md:flex-row items-start gap-6 mb-6 pb-6 border-b border-gray-600" href={`/berita/${n?.slug}`} key={i}>
               <div className="flex flex-col gap-2">
                 <h1 className="text-lg md:text-xl dark:text-gray-300 font-medium">{n?.title}</h1>
                 <p className="text-sm dark:text-gray-400">{n?.desc}</p>

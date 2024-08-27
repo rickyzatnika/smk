@@ -11,20 +11,18 @@ import { ThemeContext } from "@/context/ThemeContext";
 
 
 const Aside = () => {
-  const { data: session } = useSession();
+
 
   const pathname = usePathname();
-
-
   const { theme } = useContext(ThemeContext);
 
   return (
     <div className="h-screen w-full min-h-screen flex items-center flex-col justify-between sticky left-0 top-0 z-10 ">
-      <div className="w-full py-4 border-b border-gray-400 dark:border-gray-800 px-2 ">
+      <div className="w-full flex items-center justify-between py-1 border-b border-gray-400 dark:border-gray-800 px-2 ">
         <Link href="/" className="">
-          <Image src="/bar.png" alt="bar-logo" width={140} height={140} priority={true} className="object-contain w-full h-auto py-4" />
+          <Image src="/logo-smk.png" alt="logo-icb" width={120} height={120} priority={true} className="object-contain w-full h-16" />
         </Link>
-
+        <DarkModeToggle />
       </div>
 
       {asideLink.map((item) => (

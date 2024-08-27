@@ -64,7 +64,7 @@ const Dashboard = () => {
           </div>
           <HeaderInformation />
           <div className='flex antialiased flex-col shadow-lg gap-4 w-full my-6 bg-gray-100 dark:bg-slate-800 py-6 rounded-lg px-6'>
-            <h2 className='text-sm font-medium'>Data Transaksi Keseluruhan Pembayaran Tunai dan Transfer </h2>
+            <h2 className='text-sm font-medium'>Data</h2>
             <BarChart />
           </div>
         </div>

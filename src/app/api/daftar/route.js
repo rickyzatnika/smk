@@ -1,25 +1,36 @@
 import Murid from "@/models/Murid";
 import connect from "@/utils/connect";
+import { getToken } from "next-auth/jwt";
 
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req = NextRequest) => {
   await connect();
+
+  const token = await getToken({ req });
+  const userId = token?._id; // Mendapatkan user ID dari token
+
+  if (!userId) {
+    return new NextResponse(JSON.stringify({ message: "Ups sorry" }), {
+      status: 401,
+    });
+  }
+
   try {
     const url = new URL(req.url);
     const query = url.searchParams.get("q");
-    let riders;
+    let murid;
 
     if (query) {
       const searchRegex = new RegExp(query, "i"); // Case-insensitive search
-      riders = await Murid.find({
+      murid = await Murid.find({
         $or: [{ name: searchRegex }, { kis: searchRegex }],
       });
     } else {
-      riders = await Murid.find({});
+      murid = await Murid.find({});
     }
 
-    return new NextResponse(JSON.stringify({ riders, success: true }), {
+    return new NextResponse(JSON.stringify({ murid, success: true }), {
       status: 200,
     });
   } catch (error) {
@@ -44,17 +55,18 @@ export const POST = async (req = NextRequest) => {
     school,
     parentName,
     parentJob,
+    gender,
     img,
     recaptchaToken,
   } = await req.json();
 
   try {
-    // if (!recaptchaToken) {
-    //   return new NextResponse(
-    //     JSON.stringify({ message: "Invalid reCAPTCHA" }),
-    //     { status: 400 }
-    //   );
-    // }
+    if (!recaptchaToken) {
+      return new NextResponse(
+        JSON.stringify({ message: "Invalid reCAPTCHA" }),
+        { status: 400 }
+      );
+    }
 
     const newMurid = new Murid({
       name,
@@ -64,6 +76,7 @@ export const POST = async (req = NextRequest) => {
       school,
       parentName,
       parentJob,
+      gender,
       img,
     });
     const savedMurid = await newMurid.save();

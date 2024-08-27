@@ -4,36 +4,15 @@ import Image from "next/image";
 import Link from "next/link";
 import MobileNav from "./MobileNav";
 import AuthLink from "./AuthLink";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "@/context/ThemeContext";
 import DarkModeToggle from "../Darkmode/DarkMode";
+import { dropLink } from "@/utils/dropLink";
 
 
 
-const dropLink = [
-  {
-    id: "1",
-    label: "Otomatisasi Dan Tata Kelola Perkantoran",
-    url: "/otomatisasi-dan-tata-kelola-perkantoran"
-  },
-  {
-    id: "2",
-    label: "Bisnis Daring Dan Pemasaran",
-    url: "/bisnis-daring-dan-pemasaran"
-  },
-  {
-    id: "3",
-    label: "Akuntansi Dan Keuangan Lembaga",
-    url: "/akuntansi-dan-keuangan-lembaga"
-  },
-  {
-    id: "4",
-    label: "Rekayasa Perangkat Lunak",
-    url: "/rekayasa-perangkat-lunak"
-  }
-]
 
 
 const Navbar = () => {
@@ -42,6 +21,15 @@ const Navbar = () => {
   const { theme } = useContext(ThemeContext);
   const [showMenu, setShowMenu] = useState(false);
   const isDashboard = pathname.startsWith("/dashboard");
+  const router = useRouter();
+
+
+
+
+  const handleLogout = async () => {
+    await signOut({ redirect: false }); // Jangan redirect otomatis
+    router.push('/login'); // Redirect secara manual ke halaman login
+  };
 
   return (
     <div
@@ -53,9 +41,9 @@ const Navbar = () => {
           <Image
             src="/logo-smk.png"
             alt=""
-            width={200}
-            height={200}
-            className="w-36 h-28 object-contain py-2"
+            width={75}
+            height={50}
+            className="w-30 md:w-24 h-auto object-contain py-2"
             priority={true}
           />
         </Link>
@@ -65,7 +53,7 @@ const Navbar = () => {
         <Link
           className={`font-medium pb-3 ${pathname === "/"
             ? "text-lime-500 border-b border-lime-500 "
-            : " text-gray-400 hover:text-lime-500 "
+            : " text-gray-500 hover:text-lime-500 "
             }`}
           prefetch={false}
           href="/"
@@ -73,19 +61,19 @@ const Navbar = () => {
           Home
         </Link>
         <Link
-          className={`font-medium pb-3 ${pathname === "/news"
+          className={`font-medium pb-3 ${pathname === "/berita"
             ? "text-lime-500 border-b border-lime-500 pb-1"
-            : " text-gray-400 hover:text-lime-500 "
+            : " text-gray-500 hover:text-lime-500 "
             }`}
           prefetch={false}
-          href="/news"
+          href="/berita"
         >
           Berita
         </Link>
         <Link
-          className={`font-medium pb-3 ${pathname === "/about"
+          className={`font-medium pb-3 ${pathname === "/informasi"
             ? "text-lime-500 border-b border-lime-500 pb-1"
-            : " text-gray-400 hover:text-lime-500 "
+            : " text-gray-500 hover:text-lime-500 "
             }`}
           prefetch={false}
           href="/informasi"
@@ -93,7 +81,7 @@ const Navbar = () => {
           Informasi
         </Link>
         <div
-          className="relative pb-3 group group-hover:delay-300 font-medium cursor-pointer text-gray-400  hover:text-lime-500"
+          className="relative pb-3 group group-hover:delay-300 font-medium cursor-pointer text-gray-500  hover:text-lime-500"
         >
           Jurusan
           <ul
@@ -115,7 +103,7 @@ const Navbar = () => {
         <Link
           className={`font-medium pb-3 ${pathname === "/pendaftaran"
             ? "text-lime-500 border-b border-lime-500 pb-1"
-            : " text-gray-400 hover:text-lime-500 "
+            : " text-gray-500 hover:text-lime-500 "
             }`}
           prefetch={false}
           href="/pendaftaran"
@@ -127,7 +115,7 @@ const Navbar = () => {
             <Link
               className={`font-medium pb-3 ${pathname === "/profile"
                 ? "text-lime-500 border-b border-lime-500 pb-1"
-                : "text-gray-400 hover:text-lime-500 pb-1"
+                : "text-gray-500 hover:text-lime-500 pb-1"
                 }`}
               prefetch={false}
               href="/profile"
@@ -139,10 +127,22 @@ const Navbar = () => {
           ""
         )}
 
+        <Link
+          className={`font-medium pb-3 ${pathname === "/brainstorming"
+            ? "text-lime-500 border-b border-green-500 pb-1"
+            : "text-gray-500 hover:text-lime-500 pb-1"
+            }`}
+          prefetch={false}
+          href="/forum-diskusi"
+        >
+          Forum
+        </Link>
+
+
         {status === "authenticated" && session?.user?.role === "admin" && <Link
           className={`font-medium pb-3 ${pathname === "/dashboard"
             ? "text-lime-500 border-b border-green-500 pb-1"
-            : "text-gray-400 hover:text-lime-500 pb-1"
+            : "text-gray-500 hover:text-lime-500 pb-1"
             }`}
           prefetch={false}
           href="/dashboard"
@@ -151,12 +151,13 @@ const Navbar = () => {
         </Link>}
 
       </div>
-      <div className="ml-4 pb-3">
+      <div className="ml-4 pb-0 md:pb-3">
         <DarkModeToggle />
       </div>
       <AuthLink />
       {status === "authenticated" && <button
-        onClick={() => signOut()}
+        type="button"
+        onClick={handleLogout}
         className="ml-3 text-xs py-1.5 px-3 bg-lime-500 text-white rounded mb-3"
 
       >

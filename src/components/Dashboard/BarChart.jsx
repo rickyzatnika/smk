@@ -14,10 +14,12 @@ import {
 } from 'chart.js';
 import { useContext, useEffect, useState } from 'react';
 import { ThemeContext } from '@/context/ThemeContext';
-import { formatCurrency } from '@/utils/formatCurrency';
 
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, Colors);
+
+
+const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 const BarChart = () => {
 
@@ -25,13 +27,11 @@ const BarChart = () => {
   const { theme } = useContext(ThemeContext);
   const [sortData, setSortData] = useState([]);
 
-  const fetcher = (...args) => fetch(...args).then((res) => res.json());
-
   const { data, mutate } = useSWR(`${process.env.NEXT_PUBLIC_API_PRO}/api/daftar`, fetcher);
 
   useEffect(() => {
-    if (data && data.riders) {
-      const dataSort = data?.riders?.sort((a, b) => a.name.localeCompare(b.name))
+    if (data && data?.murid) {
+      const dataSort = data?.murid?.sort((a, b) => a?.name.localeCompare(b?.name))
       mutate();
       return setSortData(dataSort);
     }
@@ -39,11 +39,11 @@ const BarChart = () => {
   }, [data, mutate]);
 
   const chartData = {
-    labels: sortData?.map(rider => rider.name),
+    labels: sortData?.map(murid => murid?.name),
     datasets: [
       {
         label: `Rp`,
-        data: sortData?.map(item => item.totalPrice),
+        data: sortData?.map(item => item.school),
         backgroundColor: 'rgb(118,202,41)',
       },
     ],
@@ -60,8 +60,7 @@ const BarChart = () => {
       },
       title: {
         display: true,
-        text: `Total pendapatan yang masuk sebesar ${formatCurrency(sortData?.reduce((sum, rider) => sum + rider.totalPrice, 0))
-          }`,
+        text: `Murid`,
         color: `${theme === "light" ? '#797979' : '#c7c7c7'}`, // Warna font pada title
       },
     },

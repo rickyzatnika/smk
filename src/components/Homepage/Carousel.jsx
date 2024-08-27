@@ -75,7 +75,7 @@ const Carousel = () => {
                 <h1 className="text-lg md:text-2xl font-bold text-gray-50">{n?.title}</h1>
                 <p className="text-md md:text-lg leading-relaxed text-gray-100">{n?.desc}</p>
                 <Link
-                  href={`/news/${n?.slug}`}
+                  href={`/berita/${n?.slug}`}
                   className="w-fit py-2 px-4 bg-black text-white rounded-md mt-2"
                 >
                   Selengkapnya

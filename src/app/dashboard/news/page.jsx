@@ -11,11 +11,11 @@ const EventPage = () => {
   const [noData, setNodata] = useState(false);
   const [events, setEvents] = useState([]);
 
-  const { data, mutate } = useSWR(`${process.env.NEXT_PUBLIC_API_DEV}/api/news`, fetcher);
+  const { data, mutate } = useSWR(`${process.env.NEXT_PUBLIC_API_PRO}/api/news`, fetcher);
 
 
   useEffect(() => {
-    if (data && data.events) {
+    if (data && data.news) {
       setEvents(data);
       mutate()
     }

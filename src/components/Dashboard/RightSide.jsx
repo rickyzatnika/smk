@@ -93,7 +93,7 @@ const RightSide = () => {
   }, [data, mutate]);
 
   const chartData = {
-    labels: ['Belum Valid', 'Sudah Valid'],
+    labels: ['Tidak Diterima', 'Diterima'],
     datasets: [
       {
         data: [unpaidCount, paidCount],

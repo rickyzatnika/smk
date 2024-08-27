@@ -1,5 +1,5 @@
 "use client";
-import { signIn } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
@@ -15,7 +15,7 @@ import { ThemeContext } from "@/context/ThemeContext";
 const Login = () => {
 
   const { theme } = useContext(ThemeContext);
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -31,55 +31,47 @@ const Login = () => {
     const name = e.target[0].value;
     const password = e.target[1].value;
 
+
+    if (name === "" || password === "") {
+      toast.error("Field required!");
+      setLoading(false);
+      return;
+    }
+
+    if (password.length < 5) {
+      toast.error("Password must be at least 5 characters");
+      setLoading(false);
+      return;
+    }
+
     try {
-      if (name === "" || password === "") {
-        toast.error("Field required!");
-        return;
-      }
+      // Sign in with redirect set to false to handle response manually
+      const result = await signIn("credentials", {
+        redirect: false,
+        name,
+        password,
+      });
 
-      if (password.length < 5) {
-        toast.error("Password must be at least 5 characters");
-        return;
-      }
+      if (result?.error) {
+        // Display error message received from server
+        toast.error(result.error);
+      } else if (result?.status === 200) {
+        // Get the session to access user role
+        const session = await getSession();
+        const role = session?.user?.role;
 
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, password }),
-      })
-
-      const error = await res.json();
-
-      if (res.status === 200) {
-        const timeOutId = setTimeout(() => {
-          setLoading(false);
-          signIn("credentials", {
-            name: name,
-            password: password,
-          });
-        }, 3000)
-
-        return () => clearTimeout(timeOutId);
+        const redirectUrl = role === "admin" ? "/dashboard" : "/";
+        router.push(redirectUrl);
       } else {
-        toast.error(error.message);
-        setLoading(false);
+        toast.error("Login failed. Please check your credentials and try again.");
       }
 
     } catch (error) {
-      toast.error(error.message);
+      toast.error("An unexpected error occurred");
+    } finally {
+      setLoading(false);
     }
-
   };
-
-  useEffect(() => {
-    if (session) {
-      if (session.user.role === 'admin' || session.user.role === 'master') {
-        router.push('/dashboard');
-      } else {
-        router.push('/');
-      }
-    }
-  }, [router, session]);
 
 
   return (

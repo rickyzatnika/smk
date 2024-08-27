@@ -86,7 +86,7 @@ export const GET = async (req = NextRequest) => {
     murids.sort((a, b) => a.name.localeCompare(b.name));
 
     if (!murids.length) {
-      return new NextResponse("No riders found", { status: 404 });
+      return new NextResponse("No students found", { status: 404 });
     }
 
     const workbook = new ExcelJS.Workbook();
@@ -96,26 +96,35 @@ export const GET = async (req = NextRequest) => {
       { header: "Nama", key: "name", width: 30 },
       { header: "Alamat", key: "address", width: 30 },
       { header: "No.Handphone", key: "phone", width: 20 },
-      { header: "Tempat Tanggal Lahir", key: "ttl", width: 20 },
+      { header: "Tempat Tanggal Lahir", key: "ttl", width: 40 },
+      { header: "Jenis Kelamin", key: "gender", width: 20 },
       { header: "Sekolah Asal", key: "school", width: 20 },
       { header: "Nama Orang Tua", key: "parentName", width: 20 },
       { header: "Pekerjaan Orang Tua", key: "parentJob", width: 20 },
-      { header: "Foto", key: "img", width: 20 },
+      { header: "Status", key: "isAccepted", width: 20 },
+      { header: "Foto", key: "img", width: 30, height: 40 },
     ];
 
-    worksheet.addRow({
-      name: murids.name,
-      address: murids.address,
-      ttl: murids.ttl,
-      phone: murids.phone,
-      school: murids.school,
-      parentName: murids.parentName,
-      parentJob: murids.parentJob,
-    });
+    for (const murid of murids) {
+      const row = worksheet.addRow({
+        name: murid.name,
+        address: murid.address,
+        ttl: murid.ttl,
+        gender: murid.gender,
+        phone: murid.phone,
+        school: murid.school,
+        parentName: murid.parentName,
+        parentJob: murid.parentJob,
+        isAccepted: murid.isAccepted,
+      });
+      if (murid.isAccepted === true) {
+        worksheet.getCell(row.number, 9).value = "Diterima";
+      } else {
+        worksheet.getCell(row.number, 9).value = "Tidak Diterima";
+      }
 
-    if (murids.img) {
-      try {
-        const imageResponse = await fetch(murids.img);
+      if (murid.img) {
+        const imageResponse = await fetch(murid.img);
         const imageBuffer = await imageResponse.arrayBuffer();
         const imageId = workbook.addImage({
           buffer: Buffer.from(imageBuffer),
@@ -123,11 +132,9 @@ export const GET = async (req = NextRequest) => {
         });
 
         worksheet.addImage(imageId, {
-          tl: { col: 8, row: row.number - 1 },
-          ext: { width: 30, height: 20 },
+          tl: { col: 9, row: row.number - 1 },
+          ext: { width: 30, height: 40 },
         });
-      } catch (error) {
-        worksheet.getCell(row.number, 9).value = "Bayar di lokasi";
       }
     }
 

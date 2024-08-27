@@ -14,15 +14,13 @@ const TABLE_HEAD = [
   "No",
   "Nama",
   "Alamat",
+  "Tempat Tanggal Lahir",
+  "Jenis Kelamin",
   "No.Handphone",
-  "No.KIS",
-  "No.Identitas/NIK",
-  "Nama Team",
-  "Nomor Start",
-  "Kelas Yang diikuti",
-  "Bukti Transfer",
-  "Biaya Pendaftaran",
-  "Status Pembayaran",
+  "Sekolah Asal",
+  "Nama Orang Tua",
+  "Pekerjaan Orang Tua",
+  "Foto",
   "Action",
 ];
 
@@ -34,13 +32,11 @@ const TableRiders = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
-  const [riders, setRiders] = useState([]);
+  const [students, setStudents] = useState([]);
   const [noData, setNoData] = useState(false);
+  const [studentName, setStudentName] = useState("")
   const [showModalPayment, setShowModalPayment] = useState(false);
-  const [riderName, setRiderName] = useState("");
-  const [riderStatus, setRiderStatus] = useState("");
-  const [riderId, setRiderId] = useState("");
-  const [totalPrice, setTotalPrice] = useState(0);
+
 
   // FOR PAGINATION
   // const [currentPage, setCurrentPage] = useState(1);
@@ -61,10 +57,10 @@ const TableRiders = () => {
   const [datas, setDatas] = useState(data);
 
   useEffect(() => {
-    if (data && data.riders) {
-      const sortedData = data?.riders?.sort((a, b) => a.name.localeCompare(b.name));
+    if (data && data.murid) {
+      const sortedData = data?.murid?.sort((a, b) => a.name.localeCompare(b.name));
       if (searchQuery.length === 0 || searchQuery.length > 2) {
-        setRiders(sortedData);
+        setStudents(sortedData);
         mutate();
       }
 
@@ -87,28 +83,13 @@ const TableRiders = () => {
   };
 
 
-  const handleImageClick = (imgSrc, name, totalPrice) => {
+  const handleImageClick = (imgSrc, name) => {
     setSelectedImage(imgSrc);
     setShowImage(true);
-    setRiderName(name);
-    setTotalPrice(totalPrice)
+    setStudentName(name);
+
   };
 
-  const exportPDF = async () => {
-    try {
-      const response = await fetch(`/api/daftar/export-pdf`);
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "riders.pdf";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-    } catch (error) {
-      console.error("Error exporting PDF:", error);
-    }
-  };
 
   const exportExcel = async () => {
     try {
@@ -117,7 +98,7 @@ const TableRiders = () => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "riders.xlsx";
+      a.download = "murid.xlsx";
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -132,52 +113,15 @@ const TableRiders = () => {
   };
 
 
-  const handleModalPayment = (id, status, name) => {
-    setShowModalPayment((prev) => !prev);
-    setRiderId(id);
-    setRiderStatus(status);
-    setRiderName(name);
-  }
 
-
-  const handleUpdatePaymentStatus = async (riderId, riderStatus, riderName) => {
-
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_PRO}/api/daftar/status/${riderId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ isPayment: riderStatus }),
-        }
-      );
-
-      // Update state locally
-      if (res.status === 200) {
-        setDatas((prevData) =>
-          prevData?.riders?.map((rider) =>
-            rider?._id === riderId ? { ...rider, isPayment: riderStatus } : rider
-          )
-        );
-        toast.success(`Status Pembayaran ${riderName} diperbarui`);
-        mutate(); // Memuat ulang data
-        setShowModalPayment(false);
-      } else {
-        toast.error(`Gagal memperbarui status pembayaran ${riderName}`);
-      }
-    } catch (error) {
-      toast.error("Terjadi kesalahan saat memperbarui status pembayaran");
-    }
-  };
 
   const handleDelete = async () => {
     if (!deleteId) return; // Jika tidak ada ID yang diset, tidak lakukan apa-apa
 
     try {
       // Cari nama rider yang akan dihapus dari state
-      const riderToDelete = riders.find((rider) => rider._id === deleteId);
-      const riderName = riderToDelete ? riderToDelete.name : "Rider";
+      const studentToDelete = students.find((student) => student._id === deleteId);
+      const studentName = studentToDelete ? studentToDelete.name : "Rider";
 
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_PRO}/api/daftar/${deleteId}`,
@@ -187,15 +131,15 @@ const TableRiders = () => {
       );
 
       if (res.status === 200) {
-        toast.success(`${riderName} dihapus`);
+        toast.success(`${studentName} dihapus`);
         setShowModal(false);
         // Perbarui state riders jika diperlukan
-        setRiders((prevRiders) =>
-          prevRiders.filter((rider) => rider._id !== deleteId)
+        setStudents((prevStudents) =>
+          prevStudents.filter((student) => student._id !== deleteId)
         );
         mutate(); // Memuat ulang data
       } else {
-        toast.error("Gagal menghapus rider");
+        toast.error("Gagal menghapus");
       }
     } catch (error) {
       toast.error("Ups, sesuatu yang salah");
@@ -206,10 +150,7 @@ const TableRiders = () => {
     <>
       {showImage && selectedImage && (
         <div className="fixed backdrop-blur bg-black/70 z-50 top-0 bottom-0 left-0 right-0 w-full h-full ">
-          <div className=" text-gray-100 flex flex-col gap-3 p-8">
-            <h3 className="text-sm">Bukti Transfer : {riderName}</h3>
-            <h3 className="text-sm">Total Pembayaran : {formatCurrency(totalPrice)}</h3>
-          </div>
+          <h1>{studentName}</h1>
           <button
             type="button"
             className=" w-full py-3 h-full"
@@ -217,7 +158,7 @@ const TableRiders = () => {
           >
             <Image
               src={selectedImage}
-              alt="bukti-transfer"
+              alt="murid"
               fill={true}
               sizes="100%" // Sesuaikan ukuran modal
               className="object-contain"
@@ -229,15 +170,15 @@ const TableRiders = () => {
       )}
       <div className="w-full flex items-center justify-between border-b border-gray-400 dark:border-gray-800 pb-1.5">
         <div className="flex flex-col items-start">
-          <h1 className="text-lg font-semibold antialiased ">DAFTAR RIDERS</h1>
+          <h1 className="text-lg font-semibold antialiased ">DAFTAR CALON MURID</h1>
           {noData ? (
             <h3 className="w-full  font-medium text-sm">
               Belum ada data yang masuk...
             </h3>
           ) : (
             <div className="flex gap-2 items-center">
-              <h2 className="text-sm antialiased ">Total Riders :</h2>
-              <p className="text-sm antialiased">{riders?.length} Orang</p>
+              <h2 className="text-sm antialiased ">Total :</h2>
+              <p className="text-sm antialiased">{students?.length} Orang</p>
             </div>
           )}
         </div>
@@ -270,27 +211,15 @@ const TableRiders = () => {
               />
             </div>
           </form>
-          <div className="flex flex-col items-center justify-center">
-            <div className="flex gap-1 relative">
-              <button
-                className="group hover:text-gray-300  second dark:bg-slate-800 p-2 rounded  text-red-500"
-                onClick={exportPDF}
-              >
-                <GrDocumentPdf size={18} />
-                <span className="hidden w-max  group-hover:block absolute -top-3 -left-16 rounded py-0.5 px-1 text-xs second text-gray-50">
-                  Export To PDF
-                </span>
-              </button>
-              <button
-                className="group hover:text-gray-300  second dark:bg-slate-800 p-2 rounded  text-green-500"
-                onClick={exportExcel}
-              >
-                <SiMicrosoftexcel size={18} />
-                <span className="hidden w-max group-hover:block absolute -top-3 -left-10 rounded py-0.5 px-1 text-xs second text-gray-50">
-                  Export To Excel
-                </span>
-              </button>
-            </div>
+          <div className="relative">
+            <button
+              className="group hover:text-gray-300  second dark:bg-slate-800 p-2 rounded  text-green-500"
+              onClick={exportExcel}>
+              <SiMicrosoftexcel size={18} />
+              <span className="hidden w-max group-hover:block absolute -top-3 -left-10 rounded py-0.5 px-1 text-xs second text-gray-50">
+                Export To Excel
+              </span>
+            </button>
           </div>
         </div>
       </div>
@@ -299,90 +228,62 @@ const TableRiders = () => {
           <thead className="text-sm uppercase second text-gray-100 dark:bg-gray-700 dark:text-gray-300">
             <tr className="">
               {TABLE_HEAD.map((head) => (
-                <th key={head} className="px-6 py-3">
+                <th key={head} className="px-4 py-3 ">
                   {head}
                 </th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {riders?.map((rider, i) => (
+            {students?.map((murid, i) => (
               <tr
-                key={rider?._id}
+                key={murid?._id}
                 className="bg-white text-sm font-medium border-b dark:bg-gray-800 dark:border-gray-700"
               >
-                <td className="px-6 py-4 capitalize antialiased leading-relaxed">
+                <td className="px-4 py-4 capitalize antialiased leading-relaxed">
                   {i + 1}.
                 </td>
-                <td className="px-6 py-4 capitalize antialiased leading-relaxed">
-                  <p className="w-32">{rider?.name}</p>
+                <td className="px-4 py-4 capitalize antialiased leading-relaxed">
+                  <p className="w-32">{murid?.name}</p>
                 </td>
-                <td className="px-6 py-4 capitalize antialiased leading-relaxed">
-                  <p className="w-52">{rider?.address}</p>
+                <td className="px-4 py-4 capitalize antialiased leading-relaxed">
+                  <p className="w-52">{murid?.address}</p>
                 </td>
-                <td className="px-6 py-4 capitalize antialiased leading-relaxed">
-                  {rider?.phone}
+                <td className="px-4 py-4 capitalize antialiased leading-relaxed">
+                  {murid?.ttl}
                 </td>
-                <td className="px-6 py-4 capitalize antialiased leading-relaxed">
-                  {rider?.kis}
+                <td className="px-4 py-4 capitalize antialiased leading-relaxed">
+                  {murid?.gender}
                 </td>
-                <td className="px-6 py-4 capitalize antialiased leading-relaxed">
-                  {rider?.nik}
+                <td className="px-4 py-4 capitalize antialiased leading-relaxed">
+                  {murid?.phone}
                 </td>
-                <td className="px-6 py-4 capitalize antialiased leading-relaxed">
-                  <p className="w-32">{rider?.team}</p>
+                <td className="px-4 py-4 capitalize antialiased leading-relaxed">
+                  {murid?.school}
                 </td>
-                <td className="px-6 py-4 capitalize antialiased leading-relaxed">
-                  {rider?.numberStart}
+                <td className="px-4 py-4 capitalize antialiased leading-relaxed">
+                  <p className="w-32">{murid?.parentName}</p>
                 </td>
-                <td className="px-6 py-4 capitalize antialiased leading-relaxed ">
-                  <p className="w-64">
-                    {rider?.raceClass.map((cls) => `${cls?.name}`).join(", ")}
-                  </p>
+                <td className="px-4 py-4 capitalize antialiased leading-relaxed">
+                  {murid?.parentJob}
                 </td>
-                <td className="px-6 py-4 text-center flex items-center justify-center flex-col gap-2 ">
-                  {!rider?.img || rider?.img === "" ? (
-                    <div className="w-max px-3 py-4 antialiased">
-                      Bayar dilokasi
-                    </div>
-                  ) : (
-                    <button
-                      className="w-fit my-4 text-sm second mx-auto antialiased text-gray-300 py-1 px-1.5 rounded"
-                      onClick={() => handleImageClick(rider?.img, rider?.name, rider?.totalPrice)}
-                      type="button"
-                    >
-                      Lihat Gambar
-                    </button>
-                  )}
+
+                <td className="px-4 py-4 text-center flex items-center justify-center flex-col gap-2 ">
+                  <button
+                    className="w-fit my-4 text-xs second mx-auto antialiased text-gray-300 py-1 px-1.5 rounded"
+                    onClick={() => handleImageClick(murid?.img, murid?.name)}
+                    type="button"
+                  >
+                    Lihat Foto
+                  </button>
                 </td>
-                <td className="px-6 py-4 capitalize antialiased leading-relaxed">
-                  {formatCurrency(rider?.totalPrice)}
-                </td>
-                <td
-                  onClick={() => handleModalPayment(rider?._id, !rider?.isPayment, rider?.name)}
-                  className={`w-full relative px-1 py-4 flex flex-col items-center justify-center  capitalize antialiased leading-relaxed  ${rider?.isPayment
-                    ? "bg-green-500 text-gray-50 cursor-pointer"
-                    : "text-red-400 cursor-pointer"
-                    }`}
-                >
-                  {rider?.isPayment === false ? (
-                    <>
-                      <p>(belum valid) </p>
-                      <span className="text-[0.70rem]">
-                        klik untuk validasi
-                      </span>
-                    </>
-                  ) : (
-                    "Valid"
-                  )}
-                </td>
-                <td className="px-6 py-4 ">
+                <td className="px-2 py-4 ">
                   <div className="flex gap-4 items-center justify-center">
-                    <Link className="relative group" href={`/dashboard/list-riders/edit/${rider?._id}`}>
+                    <Link className="relative group" href={`/dashboard/list-murid/edit/${murid?._id}`}>
                       <span className="hidden group-hover:block z-10 absolute -top-3 -left-8 text-xs second text-white py-0.5 px-2 rounded-full">edit</span>
                       <GrEdit className="group-hover:rotate-45 group-hover:text-green-400 transition-all duration-100" size={20} />
                     </Link>
-                    <button className="relative group" onClick={() => handleShowModal(rider?._id)}>
+                    <button className="relative group" onClick={() => handleShowModal(murid?._id)}>
                       <span className="hidden group-hover:block z-10 absolute -top-3 -left-8 text-xs second text-white py-0.5 px-2 rounded-full">hapus</span>
                       <RiDeleteBin6Fill className="group-hover:rotate-45 group-hover:text-red-400 transition-all duration-100" size={20} />
                     </button>
@@ -414,8 +315,8 @@ const TableRiders = () => {
           <div className="fixed top-0 left-0 w-full h-screen shadow-lg z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center">
             <div className="bg-gray-100 dark:bg-slate-800 py-8 px-6 rounded shadow-lg shadow-gray-600 dark:shadow-slate-950">
               <p className="text-lg py-2 antialiased">
-                Anda yakin ingin menghapus Rider <br />
-                {riders.find((r) => r._id === deleteId)?.name} ?
+                Anda yakin ingin menghapus  <br />
+                {students.find((r) => r._id === deleteId)?.name} ?
               </p>
               <div className="flex gap-3 pt-6">
                 <button
@@ -434,28 +335,7 @@ const TableRiders = () => {
             </div>
           </div>
         )}
-        {showModalPayment && (
-          <div className="fixed top-0 left-0 w-full h-screen shadow-lg z-50 bg-black/50 backdrop-blur flex items-center justify-center">
-            <div className="bg-gray-100 dark:bg-slate-800 py-8 px-6 rounded shadow-lg shadow-gray-600 dark:shadow-slate-950">
-              <p className="text-lg py-2 antialiased">
-                Konfirmasi Status Pembayaran {riders.find((r) => r._id === riderId)?.name} ?
-              </p>
-              <div className="flex gap-3 pt-6">
-                <button
-                  className="py-1.5 px-4 text-white/90 bg-gradient-to-tr rounded from-green-400 to-lime-500 hover:bg-gradient-to-tl hover:from-green-400 hover:to-lime-500"
-                  onClick={() => handleUpdatePaymentStatus(riderId, riderStatus, riderName)}
-                >
-                  Ya, Update
-                </button>
-                <button
-                  className="py-1.5 px-4 text-white/90 bg-red-500 hover:bg-red-600 rounded"
-                  onClick={() => setShowModalPayment(false)}>
-                  Batal
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+
 
       </div>
     </>

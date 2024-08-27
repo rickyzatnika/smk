@@ -1,11 +1,11 @@
 "use client"
 
-import Modal from '@/components/Modal';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import ReCAPTCHA from 'react-google-recaptcha';
 import Image from 'next/image';
 import useSWR from 'swr';
+import { useRouter } from 'next/navigation';
 
 const fetcher = (...args) => () => fetch(...args).then(res => res.json());
 const SITE_KEY = "6LeRPioqAAAAAL_-rU_1U5K45KefMJKwKoSHubmO";
@@ -14,7 +14,7 @@ const Daftar = () => {
 
   const { mutate } = useSWR(`${process.env.NEXT_PUBLIC_API_PRO}/api/daftar`, fetcher)
 
-
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [photo, setPhoto] = useState("");
   // const [qrCode, setQRCode] = useState("");
@@ -31,6 +31,7 @@ const Daftar = () => {
     school: '',
     parentName: '',
     parentJob: '',
+    gender: '',
     recaptchaToken,
   });
 
@@ -51,7 +52,6 @@ const Daftar = () => {
   };
 
 
-
   const handleSave = async (event) => {
     event.preventDefault();
 
@@ -65,29 +65,24 @@ const Daftar = () => {
     }));
 
     if (formData.phone.length > 13) {
-      toast.error("Invalid, pastikan tidak lebih dari 13 digit");
-      return;
+      toast.error("Invalid, pastikan nomor tidak lebih dari 13 digit");
+      setLoading(false);
     }
 
-    // if (!recaptchaToken) {
-    //   toast.error("Please complete the reCAPTCHA");
-    //   return;
-    // }
+    if (!recaptchaToken) {
+      toast.error("Please complete the reCAPTCHA");
+      setLoading(false);
+    }
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_PRO}/api/daftar`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ ...formData, img, recaptchaToken }),
+      body: JSON.stringify({ ...formData, img }),
 
     });
-
-    const result = await res.json();
-
-    toast.error(result.message);
-
-    if (result.success) {
+    if (res.status === 201) {
 
       // const riderId = result.riderId;
       // // Fetch QR code using the rider ID
@@ -95,20 +90,13 @@ const Daftar = () => {
       // const qrCodeData = await qrCodeResponse.json();
 
       const timeoutId = setTimeout(() => {
-        setFormData({
-          name: '',
-          address: '',
-          ttl: '',
-          phone: '',
-          school: '',
-          parentName: '',
-          parentJob: '', // Reset total price
-        });
-        mutate();
-        setLoading(false);
 
+        setLoading(false);
         toast.success('Data terkirim');
+        router.push('/');
+        mutate();
       }, 3000);
+
 
       // if (qrCodeData.success) {
       //   // Display QR code
@@ -186,8 +174,35 @@ const Daftar = () => {
               <input onChange={handleChange} type="text" name="address" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-lime-400 focus:border-lime-400 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
             </div>
             <div>
-              <label htmlFor="phone-input" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">No.Handphone:</label>
+              <label htmlFor="phone-input" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">No.Handphone :</label>
               <input onChange={handleChange} type="number" id="phone-input" name="phone" aria-describedby="helper-text-explanation" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-lime-400 focus:border-lime-400 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="08xxxxxx" required />
+            </div>
+            <div className="mb-5 flex flex-col gap-1 ">
+              <label className="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Jenis Kelamin :</label>
+              <div className="border rounded-lg flex flex-col gap-3 border-gray-300 dark:border-gray-800 py-4 px-2">
+                <label htmlFor="default-radio-1" className="w-fit flex items-center gap-3">
+                  <input
+                    type="radio"
+                    id="default-radio-1"
+                    value="laki-laki"
+                    name="gender"
+                    onChange={handleChange}
+                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  Laki-laki
+                </label>
+                <label htmlFor="default-radio-2" className="w-fit flex items-center gap-3">
+                  <input
+                    type="radio"
+                    id="default-radio-2"
+                    value="perempuan"
+                    name="gender"
+                    onChange={handleChange}
+                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  Perempuan
+                </label>
+              </div>
             </div>
             <div>
               <label htmlFor="school" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Sekolah Sebelumnya :</label>
@@ -211,7 +226,7 @@ const Daftar = () => {
               sitekey={SITE_KEY}
               onChange={handleRecaptchaChange}
             />
-            <button type='submit' className="text-white bg-gradient-to-tr from-green-400 to-lime-500 hover:bg-gradient-to-tl hover:from-green-400 hover:to-lime-500 hover:scale-95 text-sm py-2 px-4 rounded mt-4 w-full">
+            <button type='submit' className="text-white bg-gradient-to-tr from-green-400 to-lime-500 hover:bg-gradient-to-tl hover:from-green-400 hover:to-lime-500 hover:scale-95 text-sm py-2 px-4 rounded mt-4 w-full md:w-40 mx-auto transition-all duration-300 ease-linear">
               {loading ? <div className="flex gap-2 items-center justify-center">
                 <span className=" text-white">Loading... </span>
                 <span className="loader"></span>

@@ -18,7 +18,7 @@ export default function DashboardLayout({ children }) {
   const router = useRouter();
 
   const { data, mutate } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_PRO}/api/daftar`,
+    `${process.env.NEXT_PUBLIC_API_DEV}/api/daftar`,
     fetcher
   );
 
@@ -31,7 +31,7 @@ export default function DashboardLayout({ children }) {
   }, [router, session, status]);
 
   // NOTIFICATIONS
-  const [notifiedRiders, setNotifiedRiders] = useState(() => {
+  const [notifiedMurids, setNotifiedMurids] = useState(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("notifiedRiders");
       return saved ? JSON.parse(saved) : [];
@@ -40,32 +40,30 @@ export default function DashboardLayout({ children }) {
   });
 
   useEffect(() => {
-    if (data && data.riders) {
-      const newRiders = data?.riders?.filter(
-        (rider) => rider.isPayment === false
-      );
+    if (data && data.murid) {
+      const newMurid = data?.murid;
 
       // Filter riders that haven't been notified yet
-      const newRidersToNotify = newRiders.filter(
-        (rider) => !notifiedRiders.includes(rider._id)
+      const newMuridToNotify = newMurid.filter(
+        (murid) => !notifiedMurids.includes(murid._id)
       );
 
-      if (newRidersToNotify.length > 0) {
-        toast.info(`Yeaay ${newRidersToNotify.length} rider baru registrasi`);
+      if (newMuridToNotify.length > 0) {
+        toast.info(`Yeaay ${newMuridToNotify.length} rider baru registrasi`);
 
         // Update the state and localStorage to include the notified riders
-        const updatedNotifiedRiders = [
-          ...notifiedRiders,
-          ...newRidersToNotify.map((rider) => rider._id),
+        const updatedNotifiedMurids = [
+          ...notifiedMurids,
+          ...newMuridToNotify.map((murid) => murid._id),
         ];
-        setNotifiedRiders(updatedNotifiedRiders);
+        setNotifiedMurids(updatedNotifiedMurids);
         localStorage.setItem(
-          "notifiedRiders",
-          JSON.stringify(updatedNotifiedRiders)
+          "notifiedMurids",
+          JSON.stringify(updatedNotifiedMurids)
         );
       }
     }
-  }, [data, notifiedRiders, mutate]);
+  }, [data, notifiedMurids, mutate]);
 
   return (
     <>
@@ -75,7 +73,7 @@ export default function DashboardLayout({ children }) {
         <div className="basis-[16%]">
           <Aside />
         </div>
-        <div className="w-full basis-[84%] border-l border-gray-400 dark:border-gray-800 overflow-x-auto h-full px-3 py-4">
+        <div className="w-full basis-[84%] border-l border-gray-400 dark:border-gray-800 overflow-x-auto h-screen px-3 py-4">
           {children}
         </div>
       </div>

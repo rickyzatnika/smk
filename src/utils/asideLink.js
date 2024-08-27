@@ -14,9 +14,9 @@ export const asideLink = [
   },
   {
     id: "2",
-    title: "Daftar Riders",
+    title: "Daftar Murid",
     icon: <LuActivitySquare size={24} />,
-    link: "/dashboard/list-riders",
+    link: "/dashboard/list-murid",
   },
   {
     id: "3",
@@ -26,20 +26,14 @@ export const asideLink = [
   },
   {
     id: "4",
-    title: "Kelas Balap",
+    title: "Brainstorming",
     icon: <MdFeaturedPlayList size={24} />,
-    link: "/dashboard/list-kelas",
+    link: "/dashboard/brainstorming",
   },
   {
     id: "5",
     title: "User",
     icon: <FaUserCog size={24} />,
     link: "/dashboard/users",
-  },
-  {
-    id: "6",
-    title: "Seklom",
-    icon: <RiDatabaseLine size={24} />,
-    link: "/dashboard/seklom",
   },
 ];

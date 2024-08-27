@@ -58,7 +58,7 @@ const EventPage = () => {
       )}
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
         {data?.news?.map((n, i) => (
-          <Link href={`/news/${n?.slug}`} key={i} className={`w-full group overflow-hidden h-full items-center flex flex-col gap-3 rounded-md shadow hover:shadow-md ${theme === "light" ? "bg-gray-100 text-gray-600 shadow-slate-300" : "bg-[#181A18] text-gray-300 shadow-gray-950 "}`}>
+          <Link href={`/berita/${n?.slug}`} key={i} className={`w-full group overflow-hidden h-full items-center flex flex-col gap-3 rounded-md shadow hover:shadow-md ${theme === "light" ? "bg-gray-100 text-gray-600 shadow-slate-300" : "bg-[#181A18] text-gray-300 shadow-gray-950 "}`}>
             <div className="overflow-hidden w-full ">
               <Image src={n?.imageUrl} alt={n?.title} width={384} height={288} className="w-full object-cover h-72 group-hover:scale-150 transition-all ease-in-out duration-[4000ms] " priority={true} />
             </div>
