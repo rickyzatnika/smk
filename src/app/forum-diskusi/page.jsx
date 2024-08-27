@@ -16,7 +16,7 @@ export default function BrainstormingPage() {
   const { data, error } = useSWR(`${process.env.NEXT_PUBLIC_API_PRO}/api/brainstorming`, fetcher);
 
   const { data: news } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_DEV}/api/news`,
+    `${process.env.NEXT_PUBLIC_API_PRO}/api/news`,
     fetcher
   );
 
