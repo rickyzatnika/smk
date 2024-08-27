@@ -57,16 +57,16 @@ export const POST = async (req = NextRequest) => {
     parentJob,
     gender,
     img,
-    recaptchaToken,
+    // recaptchaToken,
   } = await req.json();
 
   try {
-    if (!recaptchaToken) {
-      return new NextResponse(
-        JSON.stringify({ message: "Invalid reCAPTCHA" }),
-        { status: 400 }
-      );
-    }
+    // if (!recaptchaToken) {
+    //   return new NextResponse(
+    //     JSON.stringify({ message: "Invalid reCAPTCHA" }),
+    //     { status: 400 }
+    //   );
+    // }
 
     const newMurid = new Murid({
       name,

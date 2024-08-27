@@ -32,7 +32,7 @@ const Daftar = () => {
     parentName: '',
     parentJob: '',
     gender: '',
-    recaptchaToken,
+
   });
 
   const handleChange = (e) => {
