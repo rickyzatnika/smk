@@ -34,7 +34,7 @@ const BrainstormingDetail = ({ params }) => {
   }, [router]);
 
   const { data: brains, error: swrError } = useSWR(
-    token && params?.id ? [`${process.env.NEXT_PUBLIC_API_PRO}/api/brainstorming/${params.id}`, token] : null,
+    token && params?.id ? [`${process.env.NEXT_PUBLIC_API_PRO}/api/brainstorming/${params.id}`] : null,
     fetcher,
     { refreshInterval: 5000 } // refresh setiap 5 detik
   );
