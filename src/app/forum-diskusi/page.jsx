@@ -3,7 +3,7 @@
 
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import useSWR from 'swr';
 import moment from 'moment';
 import { GrFormView } from 'react-icons/gr';
@@ -13,7 +13,7 @@ import Image from 'next/image';
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 export default function BrainstormingPage() {
-  const { data, error } = useSWR(`${process.env.NEXT_PUBLIC_API_PRO}/api/brainstorming`, fetcher);
+  const { data, error } = useSWR(`${process.env.NEXT_PUBLIC_API_PRO}/api/brainstorming`, fetcher, { suspense: true });
 
   const { data: news } = useSWR(
     `${process.env.NEXT_PUBLIC_API_PRO}/api/news`,
@@ -23,10 +23,10 @@ export default function BrainstormingPage() {
   const limitedData = news?.news?.slice(0, 3);
 
   if (error) return <div>Error loading brainstorming sessions.</div>;
-  if (!data) return <div>Loading...</div>;
+
 
   return (
-    <>
+    <Suspense fallback={<div className='w-full h-screen flex items-center justify-center'>Loading...</div>} >
       <div className="w-full min-h-screen py-8 grid grid-cols-1 md:grid-cols-12 gap-3 relative">
         {/* Left */}
         <div className='col-span-12 md:col-span-9 py-5'>
@@ -78,6 +78,6 @@ export default function BrainstormingPage() {
           </div>
         </div>
       </div>
-    </>
+    </Suspense>
   );
 }
