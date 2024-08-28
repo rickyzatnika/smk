@@ -9,7 +9,7 @@ const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 const SectionTwo = () => {
 
-  const { data, error, isLoading } = useSWR(
+  const { data, error } = useSWR(
     `${process.env.NEXT_PUBLIC_API_PRO}/api/news`,
     fetcher
   );
@@ -17,7 +17,7 @@ const SectionTwo = () => {
   const limitedData = data?.news?.slice(0, 3);
 
   if (error) return <div>Error loading data...</div>;
-  if (isLoading || !data) return <div>Loading...</div>;
+  if (!data) return <div className="w-full h-screen flex items-center justify-center ">Loading...</div>;
 
   return (
     <div className="max-w-full h-full w-full py-12 md:py-24 px-4 sm:px-12 md:px-20 lg:px-28 2xl:px-32 mb-8">

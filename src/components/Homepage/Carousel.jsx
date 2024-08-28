@@ -9,7 +9,7 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 const Carousel = () => {
-  const { data, error, isLoading } = useSWR(
+  const { data, error } = useSWR(
     `${process.env.NEXT_PUBLIC_API_PRO}/api/news`,
     fetcher
   );
@@ -42,8 +42,8 @@ const Carousel = () => {
     };
   }, [currentIndex, data]);
 
-  if (error) return <div>Error loading data...</div>;
-  if (isLoading || !data) return <div>Loading...</div>;
+  if (error) return <div className="w-full h-screen flex items-center justify-center">Error loading data...</div>;
+  if (!data) return <div className="w-full h-screen flex items-center justify-center">Loading...</div>;
 
   const scrollPrev = () => {
     setCurrentIndex((prevIndex) =>
