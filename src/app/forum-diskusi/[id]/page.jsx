@@ -36,7 +36,7 @@ const BrainstormingDetail = ({ params }) => {
   const { data: brains, error: swrError } = useSWR(
     token && params?.id ? [`${process.env.NEXT_PUBLIC_API_PRO}/api/brainstorming/${params.id}`] : null,
     fetcher,
-    { refreshInterval: 5000 } // refresh setiap 5 detik
+    { refreshInterval: 1000 } // refresh setiap 5 detik
   );
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const BrainstormingDetail = ({ params }) => {
   }
 
   if (!brains) {
-    return <div>Loading...</div>;
+    return <div className='w-full h-screen flex items-center justify-center'>Loading...</div>;
   }
 
   return (
