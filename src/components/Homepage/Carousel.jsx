@@ -43,7 +43,7 @@ const Carousel = () => {
   }, [currentIndex, data]);
 
   if (error) return <div className="w-full h-screen flex items-center justify-center">Error loading data...</div>;
-  if (!data) return <div className="w-full h-screen flex items-center justify-center">Loading...</div>;
+  if (!data) return <div className="w-full h-screen flex items-center justify-center ">Loading...</div>;
 
   const scrollPrev = () => {
     setCurrentIndex((prevIndex) =>
