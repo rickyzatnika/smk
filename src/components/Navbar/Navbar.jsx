@@ -171,7 +171,7 @@ const Navbar = () => {
       {status === "authenticated" && <button
         type="button"
         onClick={handleLogout}
-        className="ml-3 text-xs py-1.5 px-3 bg-lime-500 text-white rounded mb-3"
+        className="ml-3 text-xs py-1.5 px-3 bg-lime-500 text-white rounded mb-0 md:mb-2"
 
       >
         Logout
