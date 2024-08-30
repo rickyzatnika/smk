@@ -1,5 +1,22 @@
 import mongoose from "mongoose";
 
+const replySchema = new mongoose.Schema({
+  content: {
+    type: String,
+    trim: true,
+  },
+  author: {
+    type: String,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  image: {
+    type: String, // URL of the image if applicable
+  },
+});
+
 const commentSchema = new mongoose.Schema({
   content: {
     type: String,
@@ -15,6 +32,7 @@ const commentSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  replies: [replySchema], // Add replies field
 });
 
 const ideaSchema = new mongoose.Schema({
