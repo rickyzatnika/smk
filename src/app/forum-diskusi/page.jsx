@@ -1,7 +1,5 @@
-
 "use client"
 
-import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { Suspense, useEffect } from 'react';
 import useSWR from 'swr';

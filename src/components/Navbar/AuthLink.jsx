@@ -21,7 +21,7 @@ const AuthLink = () => {
         <div className="loader hidden sm:block text-xs" />
       )}
       {status === "unauthenticated" ? (
-        <Link className="rounded-md bg-gradient-to-tr  from-green-500 to-lime-400 text-slate-100 hover:bg-gradient-to-tl hover:from-green-400 hover:to-lime-500 px-4 py-2 transition-colors text-sm ease-linear duration-200 hover:text-white" href={"/login"}>Masuk/Daftar</Link>
+        <Link className="rounded-md bg-gradient-to-tr  from-green-500 to-lime-400 text-slate-100 hover:bg-gradient-to-tl hover:from-green-400 hover:to-lime-500 px-4 py-2 transition-colors text-sm ease-linear duration-200 hover:text-white" href={"/login"}>Masuk</Link>
       ) : (
         ""
         // <button onClick={() => signOut()} className="uppercase rounded-md bg-gradient-to-tr from-green-500 to-lime-400 text-slate-100 hover:bg-gradient-to-tl hover:from-green-400 hover:to-lime-500 px-4 py-2 text-sm transition-colors ease-linear duration-200 hover:text-white ">Logout</button>
