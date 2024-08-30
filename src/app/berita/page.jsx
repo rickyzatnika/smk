@@ -13,8 +13,7 @@ const fetcher = (...args) => fetch(...args).then((res) => res.json());
 const EventPage = () => {
 
   const [query, setQuery] = useState(""); // State untuk query pencarian
-  const [loading, setLoading] = useState(false);
-  const [notFound, setNotFound] = useState(false); // State untuk mencatat pencarian yang tidak ditemukan
+
   const { theme } = useContext(ThemeContext);
   const { data, error, mutate } = useSWR(
     `${process.env.NEXT_PUBLIC_API_PRO}/api/news${query ? `?q=${query}` : ""}`,
@@ -23,24 +22,13 @@ const EventPage = () => {
 
   useEffect(() => {
     if (!data) {
-      setLoading(true);
-      const timeoutId = setTimeout(() => {
-        setLoading(false);
-      }, 2000);
-
-      return () => clearTimeout(timeoutId);
-    } else {
-      setLoading(false);
-      setNotFound(data?.events?.length === 0); // Atur notFound jika tidak ada hasil pencarian
+      return
     }
-
     mutate();
   }, [data, mutate]);
 
   const handleSearch = (e) => {
     setQuery(e.target.value);
-    setLoading(true);
-
   };
 
   if (!data) return <div className="w-full h-screen flex items-center justify-center text-xl">loading...</div>
@@ -54,12 +42,7 @@ const EventPage = () => {
       </div>
 
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
-        {/* Pesan peringatan jika tidak ada hasil pencarian */}
-        {notFound && (
-          <div className="w-full text-center py-8 h-screen flex items-center justify-center">
-            <p className="text-xl text-gray-600 dark:text-gray-300">Pencarian tidak ditemukan !</p>
-          </div>
-        )}
+
         {data?.news?.map((n, i) => (
           <Link href={`/berita/${n?.slug}`} key={i} className={`w-full group overflow-hidden h-full items-center flex flex-col gap-3 rounded-md shadow hover:shadow-md ${theme === "light" ? "bg-gray-100 text-gray-600 shadow-slate-300" : "bg-[#1B1D21] text-gray-300 shadow-md shadow-[#111]/80 "}`}>
             <div className="overflow-hidden w-full ">

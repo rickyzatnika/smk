@@ -39,9 +39,9 @@ const MobileNav = ({ setShowMenu, showMenu }) => {
             <IoIosHome size={24} />
             <Link className="text-md uppercase" href={"/"}>Home</Link>
           </div>
-          <div onClick={() => setShowMenu(false)} className={`flex gap-2 w-full border-b pb-2 ${pathname === "/news" ? "text-lime-500 border-lime-500" : "border-gray-400 dark:border-gray-600 text-gray-600/80 dark:text-gray-400"}`}>
+          <div onClick={() => setShowMenu(false)} className={`flex gap-2 w-full border-b pb-2 ${pathname === "/berita" ? "text-lime-500 border-lime-500" : "border-gray-400 dark:border-gray-600 text-gray-600/80 dark:text-gray-400"}`}>
             <MdOutlineEmojiEvents size={24} />
-            <Link className="text-md uppercase" href={"/news"}>Berita</Link>
+            <Link className="text-md uppercase" href={"/berita"}>Berita</Link>
           </div>
           <div onClick={() => setShowMenu(false)} className={`flex gap-2 w-full border-b pb-2 ${pathname === "/informasi" ? "text-lime-500 border-lime-500" : "border-gray-400 dark:border-gray-600 text-gray-600/80 dark:text-gray-400"}`}>
             <BiSolidBookContent size={24} />
