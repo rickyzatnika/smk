@@ -25,7 +25,7 @@ export default function BrainstormingPage() {
 
   return (
     <Suspense fallback={<div className='w-full h-screen flex items-center justify-center'>Loading...</div>} >
-      <div className="w-full min-h-screen py-8 grid grid-cols-1 lg:grid-cols-12 gap-6 relative">
+      <div className="w-full min-h-screen pt-2 pb-8 grid grid-cols-1 lg:grid-cols-12 gap-6 relative">
         {/* Left */}
         <div className='col-span-12 lg:col-span-8 py-5'>
           <div className='p-4 bg-white dark:bg-[#1B1D21] mb-8 rounded shadow-md shadow-gray-300 dark:shadow-[#111]/60'>
