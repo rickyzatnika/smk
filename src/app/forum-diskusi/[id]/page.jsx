@@ -432,22 +432,26 @@ const BrainstormingDetail = ({ params }) => {
                               Reply
                             </button>
 
-                            {comment?.replies?.map((reply) => (
-                              <div key={reply?._id} className='px-3 mt-3 bg-gray-50 dark:bg-[#444850] py-4 h-auto rounded-md shadow'>
-                                <div className='flex flex-col gap-2'>
-                                  <div className='text-sm flex items-center gap-1'>
-                                    <FaUserCircle size={18} />
-                                    <span className=' text-gray-500 dark:text-gray-300/80'><span className='italic text-xs'>balasan dari</span> {reply?.author}</span>
-                                  </div>
-                                  <div className='text-xs flex gap-1 items-center text-gray-500 dark:text-gray-300/80'><MdAccessTime size={18} />{moment(reply?.createdAt).fromNow()}</div>
-                                </div>
-                                <div className='mt-3'>
-                                  <p className=' text-gray-500 dark:text-gray-300/80'>{reply?.content}</p>
-                                  <Image src={reply?.image} priority={true} alt="" width={100} height={100} className={`${reply?.image === "" || null ? "hidden" : "block"} object-contain w-32 h-32`} />
+                            {comment?.replies?.length === 0 ? "" :
 
+                              comment?.replies?.map((reply) => (
+                                <div key={reply?._id} className='px-3 mt-3 bg-gray-50 dark:bg-[#444850] py-4 h-auto rounded-md shadow'>
+                                  <div className='flex flex-col gap-2'>
+                                    <div className='text-sm flex items-center gap-1'>
+                                      <FaUserCircle size={18} />
+                                      <span className=' text-gray-500 dark:text-gray-300/80'><span className='italic text-xs'>balasan dari</span> {reply?.author}</span>
+                                    </div>
+                                    <div className='text-xs flex gap-1 items-center text-gray-500 dark:text-gray-300/80'><MdAccessTime size={18} />{moment(reply?.createdAt).fromNow()}</div>
+                                  </div>
+                                  <div className='mt-3'>
+                                    <p className=' text-gray-500 dark:text-gray-300/80'>{reply?.content}</p>
+                                    <Image src={reply?.image} priority={true} alt="" width={100} height={100} className={`${reply?.image === "" || null ? "hidden" : "block"} object-contain w-32 h-32`} />
+
+                                  </div>
                                 </div>
-                              </div>
-                            ))}
+                              ))
+
+                            }
 
                             {/* Form balasan */}
                             {activeReplyId === comment?._id && (
