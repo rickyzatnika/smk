@@ -91,7 +91,7 @@ const BrainstormingPage = () => {
   return (
     <>
       {showModal && (
-        <FormAddBrainstorming setShowModal={setShowModal} />
+        <FormAddBrainstorming mutate={mutate} setShowModal={setShowModal} />
       )}
       <div className="">
         <div className='w-full flex items-center justify-between border-gray-400 dark:border-gray-800 border-b pb-3'>

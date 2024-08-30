@@ -7,8 +7,8 @@ export async function POST(req, { params }) {
 
   const { content, author, imageUrl } = await req.json();
 
-  console.log("Received params:", params);
-  console.log("Request Body:", { content, author });
+  // console.log("Received params:", params);
+  // console.log("Request Body:", { content, author });
 
   try {
     const brainstorming = await Brainstorming.findOne({

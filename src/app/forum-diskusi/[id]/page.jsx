@@ -200,7 +200,6 @@ const BrainstormingDetail = ({ params }) => {
   };
 
   const handleReplyEmojiClick = (commentId) => {
-
     setActiveReplyId(commentId);
     setShowEmojiPicker((prev) => !prev);
     setActiveEmojiPicker("reply");
@@ -282,10 +281,12 @@ const BrainstormingDetail = ({ params }) => {
               <textarea
                 value={newIdea}
                 onChange={(e) => setNewIdea(e.target.value)}
+                rows={6}
                 placeholder="Write your idea here..."
-                className="w-full p-2 border border-none rounded-lg dark:border-gray-600 bg-gray-100 dark:bg-[#2D3036] outline-none focus:outline-none focus:border-none focus:ring-lime-300/40"
+                className="w-full relative max-w-xl p-2 border text-gray-500 dark:text-gray-300/80 border-none rounded-lg dark:border-gray-600 bg-gray-100 dark:bg-[#2D3036] outline-none focus:outline-none focus:border-none focus:ring-lime-300/40"
               />
-              <div className="mb-3 px-3 pb-3 w-max">
+
+              <div className="mb-3 px-3 pb-3 w-max ">
                 <label
                   htmlFor="file_input"
                   className="flex items-center cursor-pointer text-blue-500 hover:text-blue-600 dark:text-blue-300"
@@ -425,84 +426,90 @@ const BrainstormingDetail = ({ params }) => {
                             {comment?.image && (
                               <Image src={comment?.image} alt="Idea Image" width={100} height={100} priority={true} className="w-auto h-auto object-contain mt-2 rounded-lg " />
                             )}
-
                             <button type='button' className='text-xs mt-6 w-mx ml-auto flex items-center gap-1 text-gray-600 dark:text-gray-300/80 hover:text-gray-400 hover:dark:text-gray-50' onClick={() => handleReplyClick(comment?._id)}>
 
                               <BsReplyAll size={18} />
                               Reply
                             </button>
+
                             {comment?.replies?.map((reply) => (
-                              <div key={reply?._id} className='px-3 mt-3 bg-[#444850] py-4 h-auto rounded-md shadow'>
+                              <div key={reply?._id} className='px-3 mt-3 bg-gray-50 dark:bg-[#444850] py-4 h-auto rounded-md shadow'>
                                 <div className='flex flex-col gap-2'>
                                   <div className='text-sm flex items-center gap-1'>
                                     <FaUserCircle size={18} />
-                                    <span className=''><span className='italic text-xs'>balasan dari</span> {reply?.author}</span>
+                                    <span className=' text-gray-500 dark:text-gray-300/80'><span className='italic text-xs'>balasan dari</span> {reply?.author}</span>
                                   </div>
-                                  <div className='text-xs flex gap-1 items-center'><MdAccessTime size={18} />{moment(reply?.createdAt).fromNow()}</div>
+                                  <div className='text-xs flex gap-1 items-center text-gray-500 dark:text-gray-300/80'><MdAccessTime size={18} />{moment(reply?.createdAt).fromNow()}</div>
                                 </div>
                                 <div className='mt-3'>
-                                  <p>{reply?.content}</p>
-                                  <Image src={reply?.image} priority={true} alt="image-crash" width={100} height={100} className='object-contain w-32 h-32' />
+                                  <p className=' text-gray-500 dark:text-gray-300/80'>{reply?.content}</p>
+                                  <Image src={reply?.image} priority={true} alt="" width={100} height={100} className={`${reply?.image === "" || null ? "hidden" : "block"} object-contain w-32 h-32`} />
+
                                 </div>
+
+
                               </div>
                             ))}
 
                             {/* Form balasan */}
                             {activeReplyId === comment?._id && (
-                              <form onSubmit={(e) => handleReplySubmit(e, idea?._id, comment?._id)} className="mt-4 relative">
-                                <textarea
-                                  value={replyContent}
-                                  onChange={(e) => setReplyContent(e.target.value)}
-                                  placeholder={`balas komentar ${comment?.author}`}
-                                  rows={4}
-                                  className="w-full placeholder:capitalize p-2 border border-none rounded-lg dark:border-gray-600 bg-gray-100 dark:bg-[#24272C] outline-none focus:outline-none focus:border-none focus:ring-lime-300/40"
-                                />
-                                <div className="flex items-center space-x-2 relative">
-                                  <button
-                                    type="button"
-                                    onClick={() => handleReplyEmojiClick(comment?._id)}
-                                    className="text-gray-500 hover:text-gray-700 absolute bottom-2 right-2"
-                                  >
-                                    😊
-                                  </button>
-                                  {showEmojiPicker && activeEmojiPicker === "reply" && activeReplyId === comment._id && (
-                                    <div className="absolute bottom-4 right-8 md:right-10 z-10">
-                                      <EmojiPicker width={230} height={420} lazyLoadEmojis={true} onEmojiClick={handleEmojiClick} />
-                                    </div>
-                                  )}
-                                </div>
-                                <div className="mb-3 px-3 pb-3 w-max">
-                                  <label
-                                    htmlFor="file_reply"
-                                    className="flex items-center cursor-pointer text-blue-500 hover:text-blue-600 dark:text-blue-300"
-                                  >
-                                    <FaImage size={14} className="mr-2" />
-                                    <span className='text-xs'>Tambahkan Foto</span>
-                                  </label>
-                                  <input
-                                    id="file_reply"
-                                    type="file"
-                                    onChange={handleReplyFileChange}
-                                    className="hidden"
+                              <div className='fixed left-0 right-0 bottom-0 pb-8 z-50 h-screen w-full bg-black/70 backdrop-blur flex items-end justify-end px-2'>
+                                <button className='absolute right-5 top-5 text-white hover:text-gray-900' onClick={() => handleReplyClick(false)}>X CLOSE</button>
+                                <form onSubmit={(e) => handleReplySubmit(e, idea?._id, comment?._id)} className="mt-4 relative w-full md:w-7/12 mx-auto">
+                                  <textarea
+                                    value={replyContent}
+                                    onChange={(e) => setReplyContent(e.target.value)}
+                                    placeholder={`balas komentar ${comment?.author}`}
+                                    rows={8}
+                                    className="w-full placeholder:capitalize p-2 border border-none rounded-lg dark:border-gray-600 bg-gray-100 dark:bg-[#24272C] outline-none focus:outline-none focus:border-none focus:ring-lime-300/40"
                                   />
-                                  {replyImage && (
-                                    <>
-                                      <div className='flex items-center justify-center gap-3 mt-2 text-gray-600 dark:text-gray-400'>
-                                        <p className="text-sm ">
-                                          {replyImage.name}
-                                        </p>
-                                        <button type='button' className='text-xs font-bold' onClick={() => setReplyImage("")}>X</button>
+                                  <div className="flex items-center space-x-2 relative">
+                                    <button
+                                      type="button"
+                                      onClick={() => handleReplyEmojiClick(comment?._id)}
+                                      className="text-gray-500 hover:text-gray-700 absolute bottom-2 right-2"
+                                    >
+                                      😊
+                                    </button>
+                                    {showEmojiPicker && activeEmojiPicker === "reply" && activeReplyId === comment._id && (
+                                      <div className="absolute bottom-4 right-8 md:right-10 z-10">
+                                        <EmojiPicker width={230} height={380} lazyLoadEmojis={true} onEmojiClick={handleEmojiClick} />
                                       </div>
-                                    </>
-                                  )}
-                                </div>
-                                <button disabled={loading} type='submit' className="text-white bg-gradient-to-tr from-green-400 to-lime-500 hover:bg-gradient-to-tl hover:from-green-400 hover:to-lime-500 hover:scale-95 text-sm py-2 px-4 rounded mt-4 w-full md:w-40 mx-auto transition-all duration-300 ease-linear">
-                                  {loading ? <div className="flex gap-2 items-center justify-center">
-                                    <span className=" text-white">Loading... </span>
-                                    <span className="loader"></span>
-                                  </div> : "Submit"}
-                                </button>
-                              </form>
+                                    )}
+                                  </div>
+                                  <div className="mb-3 px-3 pb-3 w-max">
+                                    <label
+                                      htmlFor="file_reply"
+                                      className="flex items-center cursor-pointer text-blue-500 hover:text-blue-600 dark:text-blue-300"
+                                    >
+                                      <FaImage size={14} className="mr-2" />
+                                      <span className='text-xs'>Tambahkan Foto</span>
+                                    </label>
+                                    <input
+                                      id="file_reply"
+                                      type="file"
+                                      onChange={handleReplyFileChange}
+                                      className="hidden"
+                                    />
+                                    {replyImage && (
+                                      <>
+                                        <div className='flex items-center justify-center gap-3 mt-2 text-gray-600 dark:text-gray-400'>
+                                          <p className="text-sm ">
+                                            {replyImage.name}
+                                          </p>
+                                          <button type='button' className='text-xs font-bold' onClick={() => setReplyImage("")}>X</button>
+                                        </div>
+                                      </>
+                                    )}
+                                  </div>
+                                  <button disabled={loading} type='submit' className="text-white bg-gradient-to-tr from-green-400 to-lime-500 hover:bg-gradient-to-tl hover:from-green-400 hover:to-lime-500 hover:scale-95 text-sm py-2 px-4 rounded mt-4 w-full md:w-40 mx-auto transition-all duration-300 ease-linear">
+                                    {loading ? <div className="flex gap-2 items-center justify-center">
+                                      <span className=" text-white">Loading... </span>
+                                      <span className="loader"></span>
+                                    </div> : "Submit"}
+                                  </button>
+                                </form>
+                              </div>
                             )}
                           </div>
                         ))

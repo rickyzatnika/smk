@@ -3,21 +3,11 @@
 import { toast } from "react-toastify";
 import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
-import useSWR from "swr";
 
 
-const fetcher = (...args) => fetch(...args).then((res) => res.json());
-
-const FormAddBrainstorming = ({ setShowModal }) => {
-
-
-  const { mutate } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_PRO}/api/brainstorming`,
-    fetcher
-  );
+const FormAddBrainstorming = ({ mutate, setShowModal }) => {
 
   const [loading, setLoading] = useState(false);
-
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -56,7 +46,7 @@ const FormAddBrainstorming = ({ setShowModal }) => {
         setLoading(false);
       }
     } catch (error) {
-      console.log(error.message);
+
       toast.error(error.message);
       setLoading(false);
     }
