@@ -432,7 +432,7 @@ const BrainstormingDetail = ({ params }) => {
                               Reply
                             </button>
 
-                            {comment?.replies?.length === 0 ? "" :
+                            {!comment?.replies ? "" :
 
                               comment?.replies?.map((reply) => (
                                 <div key={reply?._id} className='px-3 mt-3 bg-gray-50 dark:bg-[#444850] py-4 h-auto rounded-md shadow'>
