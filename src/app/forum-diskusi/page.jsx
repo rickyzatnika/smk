@@ -49,11 +49,11 @@ export default function BrainstormingPage() {
                   </div>
                 </div>
                 <div className='px-2 md:px-8 flex flex-row md:flex-col py-2 md:py-4 bg-[#1B1D21] md:bg-transparent w-full md:w-1/2 md:items-start items-center justify-between md:justify-start'>
-                  <p className='text-sm font-medium flex gap-2 text-gray-600 dark:text-gray-100/80 py-2'>
+                  <p className='text-sm font-medium flex gap-2 text-gray-100/80 py-2'>
                     <FaUserCircle size={24} />
                     {session?.creator}
                   </p>
-                  <span className='text-xs text-gray-500 dark:text-gray-300/80 py-0.5 '>{moment(session?.createdAt).format("LLL")}</span>
+                  <span className='text-xs text-gray-100/80 py-0.5 '>{moment(session?.createdAt).format("LLL")}</span>
 
                 </div>
               </div>
