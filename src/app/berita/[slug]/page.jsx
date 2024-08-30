@@ -43,7 +43,7 @@ const DetailsEvent = async ({ params }) => {
         </div>
 
         {/* Right */}
-        <div className='col-span-12 md:col-span-4 relative h-auto md:sticky md:h-[70vh] top-0 md:top-28 rounded shadow-lg bg-white dark:bg-[#2D3036] shadow-gray-300 dark:shadow-[#111]/40 p-5'>
+        <div className='col-span-12 md:col-span-4 relative h-auto md:sticky md:h-max top-0 md:top-28 rounded shadow-lg bg-white dark:bg-[#2D3036] shadow-gray-300 dark:shadow-[#111]/40 p-2 md:p-5'>
           <SchoolInfo />
         </div>
       </div>
