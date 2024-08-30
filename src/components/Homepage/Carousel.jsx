@@ -80,7 +80,7 @@ const Carousel = () => {
               >
                 <div className="flex flex-col flex-1 px-2 py-4 md:py-20 md:px-4 gap-3">
                   <h1 className="text-lg md:text-2xl font-bold text-gray-50">{n?.title}</h1>
-                  <p className="text-md md:text-lg leading-relaxed text-gray-200">{n?.desc}</p>
+                  <p className="text-md md:text-lg leading-relaxed text-gray-100">{n?.desc}</p>
                   <Link
                     href={`/berita/${n?.slug}`}
                     className="text-sm w-fit py-2 px-4 bg-black text-gray-100 rounded-md mt-2 hover:scale-95 transition-all duration-150 ease-linear"
