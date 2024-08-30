@@ -452,8 +452,8 @@ const BrainstormingDetail = ({ params }) => {
                             {/* Form balasan */}
                             {activeReplyId === comment?._id && (
                               <div className='fixed left-0 right-0 bottom-0 pb-8 z-50 h-screen w-full bg-black/70 backdrop-blur flex items-end justify-end px-2'>
-                                <button className='absolute right-5 top-5 text-white hover:text-gray-900' onClick={() => handleReplyClick(false)}>X CLOSE</button>
                                 <form onSubmit={(e) => handleReplySubmit(e, idea?._id, comment?._id)} className="mt-4 relative w-full md:w-7/12 mx-auto">
+                                  <button type='button' className='absolute -right-5 -top-5 text-white hover:text-gray-900' onClick={() => handleReplyClick(false)}>X CLOSE</button>
                                   <textarea
                                     value={replyContent}
                                     onChange={(e) => setReplyContent(e.target.value)}
