@@ -56,7 +56,7 @@ const BrainstormingDetail = ({ params }) => {
 
   const { data: brains, error: swrError, mutate } = useSWR(params?.id ? `${process.env.NEXT_PUBLIC_API_PRO}/api/brainstorming/${params.id}` : null,
     fetcher,
-    // { refreshInterval: 1000 }
+    { refreshInterval: 1000 }
   );
 
   useEffect(() => {
