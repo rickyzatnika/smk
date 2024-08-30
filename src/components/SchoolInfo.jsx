@@ -10,7 +10,7 @@ import { IoLogoYoutube } from 'react-icons/io';
 
 const SchoolInfo = () => {
   return (
-    <div className="p-5">
+    <div className="p-2 md:p-5">
       <h3 className='text-lg font-medium text-gray-700 uppercase dark:text-gray-200 mb-3'>Informasi sekolah</h3>
       <div className='px-0 md:px-2 leading-relaxed mb-3'>
         <h3 className='text-md text-gray-600 font-medium dark:text-gray-200/80 flex items-center gap-1'> <MdOutlineMapsHomeWork size={20} /> Alamat :</h3>
@@ -41,7 +41,7 @@ const SchoolInfo = () => {
         <span className='flex  items-center gap-1 text-gray-600 font-medium dark:text-gray-200/80'>
           <p className='text-md'>Sosial Media :</p>
         </span>
-        <div className='flex gap-3 mt-3'>
+        <div className='flex flex-wrap gap-3 mt-3'>
           <Link className='group flex gap-1' href="https://www.facebook.com/smkicbcintaniagabandung?mibextid=ZbWKwL">
             <FaFacebookSquare size={20} className='group-hover:text-blue-500' />
             <span className='text-xs group-hover:text-blue-400'>Facebook</span>
