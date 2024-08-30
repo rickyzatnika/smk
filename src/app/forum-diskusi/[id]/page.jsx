@@ -323,7 +323,7 @@ const BrainstormingDetail = ({ params }) => {
           }
         </div>
         <div>
-          <h2 className="text-sm italic font-semibold mb-2 text-gray-700 dark:text-gray-200/80 capitalize">{`${brains?.ideas?.length === 0 ? "Belum ada" : brains?.ideas?.length}`} Komentar</h2>
+
           <div className="space-y-6 w-full">
             {brains?.ideas?.map((idea) => (
               <div key={idea?._id} className="px-2 md:px-4 py-8 bg-white dark:bg-[#2D3036] rounded-lg shadow-md ">
@@ -446,8 +446,6 @@ const BrainstormingDetail = ({ params }) => {
                                   <Image src={reply?.image} priority={true} alt="" width={100} height={100} className={`${reply?.image === "" || null ? "hidden" : "block"} object-contain w-32 h-32`} />
 
                                 </div>
-
-
                               </div>
                             ))}
 
