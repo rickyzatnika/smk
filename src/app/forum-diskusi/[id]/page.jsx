@@ -323,7 +323,7 @@ const BrainstormingDetail = ({ params }) => {
           }
         </div>
         <div>
-
+          <h2 className="text-sm italic font-semibold mb-2 text-gray-700 dark:text-gray-200/80 capitalize">{`${brains?.ideas?.length === 0 ? "Belum ada" : brains?.ideas?.length}`} Komentar</h2>
           <div className="space-y-6 w-full">
             {brains?.ideas?.map((idea) => (
               <div key={idea?._id} className="px-2 md:px-4 py-8 bg-white dark:bg-[#2D3036] rounded-lg shadow-md ">
@@ -413,7 +413,7 @@ const BrainstormingDetail = ({ params }) => {
                       </form>
                     )}
                     <div className="mt-4 space-y-5 bg-white dark:bg-[#44484e] py-4 px-2">
-                      <h3 className="font-semibold text-sm text-gray-600 dark:text-gray-300 capitalize">{idea?.comments?.length === 0 ? "belum ada" : idea?.comments?.length} Komentar</h3>
+
                       {idea?.comments?.length > 0 ? (
                         idea?.comments?.map((comment, idx) => (
                           <div key={idx} className="px-2 py-4 bg-gray-50 dark:bg-[#393D43] rounded-lg shadow-sm relative">
@@ -453,7 +453,7 @@ const BrainstormingDetail = ({ params }) => {
                             {activeReplyId === comment?._id && (
                               <div className='fixed left-0 right-0 bottom-0 pb-8 z-50 h-screen w-full bg-black/70 backdrop-blur flex items-end justify-end px-2'>
                                 <form onSubmit={(e) => handleReplySubmit(e, idea?._id, comment?._id)} className="mt-4 relative w-full md:w-7/12 mx-auto">
-                                  <button type='button' className='absolute -right-5 -top-5 text-white hover:text-gray-900' onClick={() => handleReplyClick(false)}>X CLOSE</button>
+                                  <button className='absolute -right-5 -top-5 text-white hover:text-gray-900' onClick={() => handleReplyClick(false)}>X CLOSE</button>
                                   <textarea
                                     value={replyContent}
                                     onChange={(e) => setReplyContent(e.target.value)}
