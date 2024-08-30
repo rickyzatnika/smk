@@ -35,7 +35,7 @@ const SectionTwo = () => {
             Tentang Kami
           </Link>
         </div>
-        <div className=" col-span-1 md:col-span-1 pl-0 md:pl-8">
+        <div className=" col-span-1 md:col-span-1 pl-0 md:pl-8 h-full">
           <div className="flex items-center justify-between mb-8">
             <h1 className="text-lg sm:text-xl md:text-2xl font-medium border-b border-lime-500 pb-2">BERITA TERBARU</h1>
             <Link className="py-1 px-2 text-xs rounded bg-lime-500 shadow text-white" href="/news">Lihat Semua</Link>

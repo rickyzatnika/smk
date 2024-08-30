@@ -6,7 +6,7 @@ import moment from 'moment';
 
 
 const getEvent = async (slug) => {
-  const res = await axios.get(`${process.env.NEXT_PUBLIC_API_PRO}/api/news/${slug}`);
+  const res = await axios.get(`${process.env.NEXT_PUBLIC_API_DEV}/api/news/${slug}`);
   const data = await res.data;
   return data;
 };

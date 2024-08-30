@@ -8,6 +8,9 @@ const commentSchema = new mongoose.Schema({
   author: {
     type: String,
   },
+  image: {
+    type: String, // URL atau path ke gambar
+  },
   createdAt: {
     type: Date,
     default: Date.now,
@@ -21,6 +24,9 @@ const ideaSchema = new mongoose.Schema({
   },
   author: {
     type: String,
+  },
+  image: {
+    type: String, // URL atau path ke gambar
   },
   createdAt: {
     type: Date,

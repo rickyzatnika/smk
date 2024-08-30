@@ -12,7 +12,7 @@ const Footer = () => {
 
   return (
     <div className={`${pathname === "/login" || isDashboard ? "hidden" : " block w-full"}`}>
-      <footer className="bg-gray-200 rounded-tr-2xl rounded-tl-2xl shadow dark:bg-[#0C0C0C] ">
+      <footer className="bg-gray-200 rounded-tr-2xl rounded-tl-2xl shadow dark:bg-[#1B1D21] ">
         <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
           <div className="md:flex md:items-center md:justify-between">
             <Link prefetch={false} href="/" className="w-fit flex flex-col gap-3 items-start md:items-center mb-4 sm:mb-0  rtl:space-x-reverse">

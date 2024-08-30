@@ -34,7 +34,7 @@ const Navbar = () => {
   return (
     <div
       className={`w-full h-24 flex items-center  fixed top-0 right-0 left-0 z-50 shadow  px-2 sm:px-12 md:px-20 lg:px-24 2xl:px-28 ${isDashboard ? "hidden" : "fixed"
-        } ${theme === "light" ? "shadow-gray-200 bg-white" : "shadow-gray-950 bg-[#0C0C0C]"} `}
+        } ${theme === "light" ? "shadow-md shadow-gray-200 bg-white" : "shadow-md shadow-[#111]/60 bg-[#1B1D21]"} `}
     >
       <div onClick={() => setShowMenu(false)} className="flex flex-1">
         <Link prefetch={false} href={"/"}>

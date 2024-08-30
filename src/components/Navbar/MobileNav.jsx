@@ -43,6 +43,14 @@ const MobileNav = ({ setShowMenu, showMenu }) => {
             <BiSolidBookContent size={24} />
             <Link className="text-md  uppercase" href={"/informasi"}>Informasi</Link>
           </div>
+          <div onClick={() => setShowMenu(false)} className={` flex gap-2 w-full border-b pb-2 ${pathname === "/pendaftaran" ? "text-lime-500 border-lime-500" : "border-gray-400 dark:border-gray-600 text-gray-600/80"}`}>
+            <BiSolidBookContent size={24} />
+            <Link className="text-md  uppercase" href={"/pendaftaran"}>Pendaftaran</Link>
+          </div>
+          <div onClick={() => setShowMenu(false)} className={` flex gap-2 w-full border-b pb-2 ${pathname === "/forum-diskusi" ? "text-lime-500 border-lime-500" : "border-gray-400 dark:border-gray-600 text-gray-600/80"}`}>
+            <BiSolidBookContent size={24} />
+            <Link className="text-md  uppercase" href={"/forum-diskusi"}>Forum</Link>
+          </div>
           <div onClick={() => setShowMenu(false)} className={` flex gap-2 w-full border-b pb-2 ${pathname === "/help" ? "text-lime-500 border-lime-500" : "border-gray-400 dark:border-gray-600 text-gray-600/80"}`}>
             <FaRegAddressBook size={24} />
             <Link className="text-md  uppercase" href={"/help"}>Help</Link>

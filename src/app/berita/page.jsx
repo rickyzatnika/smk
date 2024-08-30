@@ -17,7 +17,7 @@ const EventPage = () => {
   const [notFound, setNotFound] = useState(false); // State untuk mencatat pencarian yang tidak ditemukan
   const { theme } = useContext(ThemeContext);
   const { data, mutate } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_PRO}/api/news${query ? `?q=${query}` : ""}`,
+    `${process.env.NEXT_PUBLIC_API_DEV}/api/news${query ? `?q=${query}` : ""}`,
     fetcher
   );
 

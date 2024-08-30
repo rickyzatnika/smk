@@ -16,6 +16,9 @@ const UsersSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    image: {
+      type: String, // URL atau path ke gambar
+    },
     role: {
       type: String,
       default: "user",

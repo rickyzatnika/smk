@@ -159,7 +159,7 @@ const Daftar = () => {
             <span className='text-xs text-red-500'>*Mohon diisi dan Lengkapi</span>
           </div>
         </div>
-        <form onSubmit={handleSave} className='px-3 md:px-6 py-8 rounded-md md:py-12 bg-slate-50 dark:bg-slate-800 shadow-lg shadow-gray-200 dark:shadow-slate-950'>
+        <form onSubmit={handleSave} className='px-3 md:px-6 py-8 rounded-md md:py-12 bg-white dark:bg-[#2D3036] shadow-lg shadow-gray-300 dark:shadow-[#111]/60'>
           <div className="grid gap-3 md:gap-6 mb-6 md:grid-cols-2">
             <div>
               <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Lengkap :</label>
