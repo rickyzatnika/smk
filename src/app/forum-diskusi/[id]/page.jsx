@@ -33,8 +33,8 @@ const BrainstormingDetail = ({ params }) => {
   const [loading, setLoading] = useState(false);
   const [selectImageFile, setSelectImageFile] = useState(null);
   const [commentImage, setCommentImage] = useState(null);
-  const [replyImage, setReplyImage] = useState(null);
-  const [replyContent, setReplyContent] = useState("");
+  // const [replyImage, setReplyImage] = useState(null);
+  // const [replyContent, setReplyContent] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [activeReplyId, setActiveReplyId] = useState(null);
   const [activeEmojiPicker, setActiveEmojiPicker] = useState(null); // new state to track active emoji picker
@@ -76,17 +76,21 @@ const BrainstormingDetail = ({ params }) => {
     setCommentImage(e.target.files[0]);
   };
 
-  const handleReplyFileChange = (e) => {
-    setReplyImage(e.target.files[0]);
-  }
+  // const handleReplyFileChange = (e) => {
+  //   setReplyImage(e.target.files[0]);
+  // }
 
   const handleIdeaSubmit = async (e) => {
     e.preventDefault();
 
-    if (!newIdea || !session?.user?.name) return;
-    try {
-      setLoading(true);
+    setLoading(true);
 
+    if (!newIdea || !session?.user?.name) {
+      toast.error("Field Required!!")
+      setLoading(false);
+      return;
+    }
+    try {
       let imageUrl = "";
 
       if (selectImageFile) {
@@ -162,15 +166,15 @@ const BrainstormingDetail = ({ params }) => {
 
 
   // handleReplyClick function
-  const handleReplyClick = (commentId) => {
-    if (activeReplyId === commentId) {
-      setActiveReplyId(null);  // Close the reply form if clicked again
-    } else {
-      setActiveReplyId(commentId);  // Open the reply form for the specific commentId
-      setShowEmojiPicker(false);    // Ensure the emoji picker is closed
-      setActiveEmojiPicker(null);
-    }
-  };
+  // const handleReplyClick = (commentId) => {
+  //   if (activeReplyId === commentId) {
+  //     setActiveReplyId(null);  // Close the reply form if clicked again
+  //   } else {
+  //     setActiveReplyId(commentId);  // Open the reply form for the specific commentId
+  //     setShowEmojiPicker(false);    // Ensure the emoji picker is closed
+  //     setActiveEmojiPicker(null);
+  //   }
+  // };
 
 
   const handleSelectIdea = (ideaId) => {
@@ -199,57 +203,57 @@ const BrainstormingDetail = ({ params }) => {
     setActiveReplyId(null);
   };
 
-  const handleReplyEmojiClick = (commentId) => {
-    setActiveReplyId(commentId);
-    setShowEmojiPicker((prev) => !prev);
-    setActiveEmojiPicker("reply");
-  };
+  // const handleReplyEmojiClick = (commentId) => {
+  //   setActiveReplyId(commentId);
+  //   setShowEmojiPicker((prev) => !prev);
+  //   setActiveEmojiPicker("reply");
+  // };
 
-  const handleReplySubmit = async (e, ideaId, commentId) => {
-    e.preventDefault();
+  // const handleReplySubmit = async (e, ideaId, commentId) => {
+  //   e.preventDefault();
 
-    if (!replyContent) {
-      toast.error("Field is required");
-      return;
-    }
+  //   if (!replyContent) {
+  //     toast.error("Field is required");
+  //     return;
+  //   }
 
-    try {
-      setLoading(true);
-      // Send the reply to the server
+  //   try {
+  //     setLoading(true);
+  //     // Send the reply to the server
 
-      let imageUrl = "";
+  //     let imageUrl = "";
 
-      if (replyImage) {
-        const formData = new FormData();
-        formData.append('file', replyImage);
-        formData.append('upload_preset', UPLOAD_PRESET);
+  //     if (replyImage) {
+  //       const formData = new FormData();
+  //       formData.append('file', replyImage);
+  //       formData.append('upload_preset', UPLOAD_PRESET);
 
-        const response = await axios.post(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, formData);
-        imageUrl = response.data["secure_url"];
-      }
+  //       const response = await axios.post(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, formData);
+  //       imageUrl = response.data["secure_url"];
+  //     }
 
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_PRO}/api/brainstorming/${params.id}/ideas/${ideaId}/comments/${commentId}/replies`,
-        { content: replyContent, author: session.user.name, imageUrl },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+  //     const res = await axios.post(
+  //       `${process.env.NEXT_PUBLIC_API_DEV}/api/brainstorming/${params.id}/ideas/${ideaId}/comments/${commentId}/replies`,
+  //       { content: replyContent, author: session.user.name, imageUrl },
+  //       { headers: { Authorization: `Bearer ${token}` } }
+  //     );
 
-      if (res.status === 200) {
-        const timeoutId = setTimeout(() => {
-          setLoading(false);
-          setReplyContent('');
+  //     if (res.status === 200) {
+  //       const timeoutId = setTimeout(() => {
+  //         setLoading(false);
+  //         setReplyContent('');
 
-          setActiveReplyId(null);
-          mutate();
-        }, 1000);
-        return () => clearTimeout(timeoutId);
-      }
-    } catch (error) {
-      setLoading(false);
-      toast.error(error.message || 'Something went wrong');
-      console.error("Error adding reply:", error);
-    }
-  };
+  //         setActiveReplyId(null);
+  //         mutate();
+  //       }, 1000);
+  //       return () => clearTimeout(timeoutId);
+  //     }
+  //   } catch (error) {
+  //     setLoading(false);
+  //     toast.error(error.message || 'Something went wrong');
+  //     console.error("Error adding reply:", error);
+  //   }
+  // };
 
   if (error) {
     return <div>Error: {error}</div>;
@@ -273,11 +277,12 @@ const BrainstormingDetail = ({ params }) => {
               </div>
               <span className='text-sm text-gray-500 dark:text-gray-300/80 flex items-center gap-1'><MdAccessTime size={20} />{moment(brains?.createdAt).fromNow()}</span>
             </div>
-            <button onClick={() => setShowModalIdea((prev) => !prev)} className='w-full md:w-max py-2 px-4 bg-lime-400 rounded-full shadow-md text-white text-sm'>Beri Masukkan</button>
+            <button onClick={() => setShowModalIdea((prev) => !prev)} className='w-full md:w-max py-2 px-4 bg-gradient-to-tr from-lime-500 to-green-500 rounded-full shadow-md text-white text-sm hover:scale-95 transition-all duration-150 ease-linear'>Beri Masukkan</button>
           </div>
+
+          {/* FORM INPUT IDEA */}
           {showModalIdea && (
             <form onSubmit={handleIdeaSubmit} div className="mt-6" >
-
               <textarea
                 value={newIdea}
                 onChange={(e) => setNewIdea(e.target.value)}
@@ -322,18 +327,19 @@ const BrainstormingDetail = ({ params }) => {
           )
           }
         </div>
-        <div>
+        {/* IDEA FROM USER */}
+        <div >
           <h2 className="text-sm italic font-semibold mb-2 text-gray-700 dark:text-gray-200/80 capitalize">{`${brains?.ideas?.length === 0 ? "Belum ada" : brains?.ideas?.length}`} Komentar</h2>
           <div className="space-y-6 w-full">
             {brains?.ideas?.map((idea) => (
               <div key={idea?._id} className="px-2 md:px-4 py-8 bg-white dark:bg-[#2D3036] rounded-lg shadow-md ">
                 <div className="flex flex-col  items-start gap-4 mb-6 md:mb-0">
-                  <div className='flex flex-row md:flex-col gap-2 items-center md:items-start '>
+                  <div className='flex flex-col md:flex-row gap-2 items-start md:items-center justify-between border-b border-gray-300 dark:border-gray-600 w-full pb-3'>
                     <div className='flex gap-1 items-center'>
                       <FaUserCircle size={28} className="text-gray-500 dark:text-gray-300/80" />
                       <span className='text-md capitalize text-gray-500 dark:text-gray-300/80'>{idea?.author}</span>
                     </div>
-                    <span className='text-xs italic'>{moment(idea.createdAt).format("LL")}</span>
+                    <span className='text-sm italic px-0 md:px-8'>{moment(idea.createdAt).format("LL")}</span>
                   </div>
                   <div className="w-full flex-1 pl-0 md:pl-4 border-none md:border-l-2 border-lime-300/50  dark:border-lime-300/20">
                     <p className="text-md text-gray-700 dark:text-gray-200/80">{idea?.content}</p>
@@ -343,10 +349,10 @@ const BrainstormingDetail = ({ params }) => {
                     <div className='mt-6 '>
                       <button
                         onClick={() => handleSelectIdea(idea?._id)}
-                        className="text-gray-500 text-right dark:text-gray-400/80 text-sm flex justify-end gap-2 items-center"
+                        className="text-gray-500 text-right dark:text-gray-400/80 text-md flex justify-end gap-2 items-center hover:dark:text-lime-500/40"
                       >
-                        <FaRegComments size={22} />
-                        Komentari
+                        <BsReplyAll size={22} />
+                        Beri Komentar
                       </button>
                     </div>
 
@@ -365,11 +371,6 @@ const BrainstormingDetail = ({ params }) => {
                               <Image src={comment?.image} alt="Idea Image" width={100} height={100} priority={true} className="w-auto h-auto object-contain mt-2 rounded-lg " />
                             )}
 
-                            {/* <button type='button' className='text-xs mt-6 w-mx ml-auto flex items-center gap-1 text-gray-600 dark:text-gray-300/80 hover:text-gray-400 hover:dark:text-gray-50' onClick={() => handleReplyClick(comment?._id)}>
-
-                              <BsReplyAll size={18} />
-                              Reply
-                            </button> */}
                             {comment?.replies?.map((reply) => (
                               <div key={reply?._id} className={`${!reply ? "hidden" : "block px-3 mt-3 bg-gray-50 dark:bg-[#444850] py-4 h-auto rounded-md shadow"}`}>
                                 <div className='flex flex-col gap-2'>
@@ -382,13 +383,92 @@ const BrainstormingDetail = ({ params }) => {
                                 <div className='mt-3'>
                                   <p className=' text-gray-500 dark:text-gray-300/80'>{reply?.content}</p>
                                   <Image src={reply?.image} priority={true} alt="" width={100} height={100} className={`${reply?.image === "" || null ? "hidden" : "block"} object-contain w-32 h-32`} />
-
                                 </div>
                               </div>
                             ))}
+                          </div>
+                        ))
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                  </div>
 
-                            {/* Form balasan */}
-                            {/* {activeReplyId === comment?._id && (
+                  {/* FORM COMMENT USER */}
+                  {selectedIdeaId === idea._id && (
+                    <form onSubmit={handleCommentSubmit} className="mt-1 w-full px-7">
+                      <div className='relative '>
+                        <textarea
+                          value={newComment}
+                          onChange={(e) => setNewComment(e.target.value)}
+                          placeholder="Write your comment here..."
+                          rows={4}
+                          className="w-full relative p-2 border border-none rounded-lg dark:border-gray-600 bg-gray-100 dark:bg-[#24272C] outline-none focus:outline-none focus:border-none focus:ring-lime-300/40"
+                        />
+                        <div className="flex items-center space-x-2">
+                          <button
+                            type="button"
+                            onClick={handleCommentEmojiClick}
+                            className="text-gray-500 hover:text-gray-700 absolute bottom-2 right-2"
+                          >
+                            😊
+                          </button>
+                          {showEmojiPicker && activeEmojiPicker === "comment" && (
+                            <div className="absolute bottom-4 right-8 md:right-10 z-10">
+                              <EmojiPicker width={230} height={420} lazyLoadEmojis={true} onEmojiClick={handleEmojiClick} />
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      <div className="mb-3 px-3 pb-3 w-max">
+                        <label htmlFor="file_comment" className="flex items-center cursor-pointer text-blue-500 hover:text-blue-600 dark:text-blue-300">
+                          <FaImage size={14} className="mr-2" />
+                          <span className='text-xs'>Tambahkan Foto</span>
+                        </label>
+                        <input
+                          id="file_comment"
+                          type="file"
+                          onChange={handleCommentFileChange}
+                          className="hidden"
+                        />
+                        {commentImage && (
+                          <>
+                            <div className='flex items-center justify-center gap-3 mt-2 text-gray-600 dark:text-gray-400'>
+                              <p className="text-sm ">
+                                {commentImage.name}
+                              </p>
+                              <button className='text-xs font-bold' onClick={() => setCommentImage("")}>X</button>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                      <button disabled={loading} type='submit' className="text-white bg-gradient-to-tr from-green-400 to-lime-500 hover:bg-gradient-to-tl hover:from-green-400 hover:to-lime-500 hover:scale-95 text-sm py-2 px-4 rounded mt-4 w-full md:w-40 mx-auto transition-all duration-300 ease-linear">
+                        {loading ? <div className="flex gap-2 items-center justify-center">
+                          <span className=" text-white">Loading... </span>
+                          <span className="loader"></span>
+                        </div> : "Submit"}
+                      </button>
+                    </form>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </>
+
+  );
+};
+
+export default BrainstormingDetail;
+
+
+
+
+
+{/* Form balasan */ }
+{/* {activeReplyId === comment?._id && (
                               <div className='fixed left-0 right-0 bottom-0 pb-8 z-50 h-screen w-full bg-black/70 backdrop-blur flex items-end justify-end px-2'>
                                 <form onSubmit={(e) => handleReplySubmit(e, idea?._id, comment?._id)} className="mt-4 relative w-full md:w-7/12 mx-auto">
                                   <button className='absolute right-0 -top-12 text-white hover:text-gray-900' onClick={() => handleReplyClick(false)}>X CLOSE</button>
@@ -447,83 +527,11 @@ const BrainstormingDetail = ({ params }) => {
                                 </form>
                               </div>
                             )} */}
-                          </div>
-                        ))
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                  </div>
-                  {selectedIdeaId === idea._id && (
-                    <form onSubmit={handleCommentSubmit} className="mt-6 w-full">
-                      <div className='relative '>
-                        <textarea
-                          value={newComment}
-                          onChange={(e) => setNewComment(e.target.value)}
-                          placeholder="Write your comment here..."
-                          rows={3}
-                          className="w-full relative p-2 border border-none rounded-lg dark:border-gray-600 bg-gray-100 dark:bg-[#24272C] outline-none focus:outline-none focus:border-none focus:ring-lime-300/40"
-                        />
-                        <div className="flex items-center space-x-2">
-                          <button
-                            type="button"
-                            onClick={handleCommentEmojiClick}
-                            className="text-gray-500 hover:text-gray-700 absolute bottom-2 right-2"
-                          >
-                            😊
-                          </button>
-                          {showEmojiPicker && activeEmojiPicker === "comment" && (
-                            <div className="absolute bottom-4 right-8 md:right-10 z-10">
-                              <EmojiPicker width={230} height={420} lazyLoadEmojis={true} onEmojiClick={handleEmojiClick} />
-                            </div>
-                          )}
-                        </div>
 
 
-                      </div>
-                      <div className="mb-3 px-3 pb-3 w-max">
-                        <label
-                          htmlFor="file_comment"
-                          className="flex items-center cursor-pointer text-blue-500 hover:text-blue-600 dark:text-blue-300"
-                        >
-                          <FaImage size={14} className="mr-2" />
-                          <span className='text-xs'>Tambahkan Foto</span>
-                        </label>
-                        <input
-                          id="file_comment"
-                          type="file"
-                          onChange={handleCommentFileChange}
-                          className="hidden"
-                        />
-                        {commentImage && (
-                          <>
-                            <div className='flex items-center justify-center gap-3 mt-2 text-gray-600 dark:text-gray-400'>
-                              <p className="text-sm ">
-                                {commentImage.name}
-                              </p>
-                              <button className='text-xs font-bold' onClick={() => setCommentImage("")}>X</button>
-                            </div>
-                          </>
-                        )}
-                      </div>
-                      <button disabled={loading} type='submit' className="text-white bg-gradient-to-tr from-green-400 to-lime-500 hover:bg-gradient-to-tl hover:from-green-400 hover:to-lime-500 hover:scale-95 text-sm py-2 px-4 rounded mt-4 w-full md:w-40 mx-auto transition-all duration-300 ease-linear">
-                        {loading ? <div className="flex gap-2 items-center justify-center">
-                          <span className=" text-white">Loading... </span>
-                          <span className="loader"></span>
-                        </div> : "Submit"}
-                      </button>
-                    </form>
-                  )}
-                </div>
-              </div>
-            ))}
 
-          </div>
-        </div>
-      </div>
-    </>
+{/* <button type='button' className='text-xs mt-6 w-mx ml-auto flex items-center gap-1 text-gray-600 dark:text-gray-300/80 hover:text-gray-400 hover:dark:text-gray-50' onClick={() => handleReplyClick(comment?._id)}>
 
-  );
-};
-
-export default BrainstormingDetail;
+                              <BsReplyAll size={18} />
+                              Reply
+                            </button> */}

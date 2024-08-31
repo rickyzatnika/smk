@@ -10,7 +10,7 @@ const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 const Carousel = () => {
   const { data, error } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_DEV}/api/news`,
+    `${process.env.NEXT_PUBLIC_API_PRO}/api/news`,
     fetcher
   );
 

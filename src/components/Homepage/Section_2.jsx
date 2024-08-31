@@ -12,7 +12,7 @@ const fetcher = (...args) => fetch(...args).then((res) => res.json());
 const SectionTwo = () => {
 
   const { data, error } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_DEV}/api/news`,
+    `${process.env.NEXT_PUBLIC_API_PRO}/api/news`,
     fetcher
   );
 
@@ -38,7 +38,7 @@ const SectionTwo = () => {
         </svg>
 
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-20 md:gap-4 mt-24">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-20 md:gap-4 mt-32">
         <div className="col-span-1 md:col-span-1 pr-0 md:pr-8 border-n md:border-r border-gray-600 ">
           <h1 className="text-lg sm:text-xl md:text-2xl font-medium mb-8">PROFILE SMK ICB CINTA NIAGA BANDUNG</h1>
           <Image src="/profile_.jpg" alt="foto-smk-icb" priority={true} width={1600} height={800} className="object-contain  py-4 w-full h-auto" />
