@@ -21,7 +21,7 @@ const SectionTwo = () => {
 
   const limitedData = data?.news?.slice(0, 3);
 
-  if (error) return <div>Error loading data...</div>;
+  if (error) return <div>Error lto fecth data..</div>;
   if (!data) return <div className="w-full h-screen flex items-center justify-center ">Loading...</div>;
 
   return (
