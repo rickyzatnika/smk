@@ -41,11 +41,11 @@ const Navbar = () => {
       <div onClick={handleCloseMenu} className="flex flex-1 ">
         <Link prefetch={false} href={"/"}>
           <Image
-            src="/logo-smk.png"
+            src={`${theme === "light" ? "/icb.png" : "/icb-putih.png"}`}
             alt=""
             width={75}
             height={50}
-            className="w-30 md:w-24 h-auto object-contain py-2"
+            className="w-30 md:w-20 h-auto object-contain py-2"
             priority={true}
           />
         </Link>

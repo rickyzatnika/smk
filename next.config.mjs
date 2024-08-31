@@ -28,6 +28,11 @@ const nextConfig = {
         hostname: "res.cloudinary.com",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "ik.imagekit.io",
+        port: "",
+      },
     ],
   },
 };

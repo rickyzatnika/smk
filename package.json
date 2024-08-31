@@ -25,6 +25,7 @@
     "exceljs": "^4.4.0",
     "flowbite": "^2.4.1",
     "flowbite-react": "^0.10.1",
+    "imagekitio-next": "^1.0.0",
     "jsonwebtoken": "^9.0.0",
     "moment": "^2.30.1",
     "mongoose": "^6.9.0",
