@@ -29,7 +29,6 @@ export const POST = async (req = NextRequest) => {
       name,
       phone,
       password: hashedPassword,
-      role: "user",
     });
     await newUser.save();
     return new NextResponse(

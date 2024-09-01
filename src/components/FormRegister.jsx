@@ -42,12 +42,11 @@ const FormRegister = ({ setActiveButton }) => {
 
     try {
       setLoading(true);
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_PRO}/api/register`, {
+      const res = await fetch(`/api/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, phone, password }),
       });
-
       const errorData = await res.json();
 
       if (res.status === 201) {
@@ -58,7 +57,7 @@ const FormRegister = ({ setActiveButton }) => {
         }, 3000);
         return () => clearTimeout(timeoutId);
       } else {
-        toast.error(errorData.message);
+        toast.error(errorData?.message);
         setLoading(false);
       }
     } catch (error) {
