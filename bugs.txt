@@ -1,5 +1,0 @@
-BUG :
-
-- send input Register Form
-
-- button submit Reply Comment Idea
