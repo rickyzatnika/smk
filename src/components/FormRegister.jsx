@@ -46,8 +46,6 @@ const FormRegister = ({ setActiveButton }) => {
         body: JSON.stringify({ name, phone, password }),
       });
 
-      const errorData = await res.json();
-
       if (res.status === 201) {
         const timeoutId = setTimeout(() => {
           setLoading(false);
@@ -56,12 +54,12 @@ const FormRegister = ({ setActiveButton }) => {
         }, 3000);
         return () => clearTimeout(timeoutId);
       } else {
-        toast.error(errorData?.message);
+        toast.error("ups something went wrong, please try again");
         setLoading(false);
       }
     } catch (error) {
       console.log(error.message);
-      toast.error(error.message);
+      toast.error("Internal Server error!! Try again later", error);
       setLoading(false);
     }
   };

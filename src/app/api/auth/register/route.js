@@ -32,7 +32,12 @@ export const POST = async (req = NextRequest) => {
       role: "user",
     });
     await newUser.save();
-    return new NextResponse("Registered Successfully", { status: 201 });
+    return new NextResponse(
+      JSON.stringify({ message: "Registered Successfully" }),
+      {
+        status: 201,
+      }
+    );
   } catch (error) {
     return new NextResponse(
       JSON.stringify({ message: "internal server error" }),
