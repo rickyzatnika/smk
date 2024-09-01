@@ -40,7 +40,7 @@ const FormRegister = ({ setActiveButton }) => {
 
     try {
       setLoading(true);
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_PRO}/api/auth/register`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_PRO}/api/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, phone, password }),
