@@ -128,8 +128,16 @@ const BrainstormingDetail = ({ params }) => {
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
-    if (!newComment || !selectedIdeaId || !session?.user?.name) return;
+
     try {
+      setLoading(true);
+
+      if (!newComment || !selectedIdeaId || !session?.user?.name) {
+        toast.error("Field required!");
+        setLoading(false);
+        return;
+      };
+
       let imageUrl = "";
 
       if (commentImage) {
@@ -147,6 +155,8 @@ const BrainstormingDetail = ({ params }) => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
+      const errorData = res.json();
+
       if (res.status === 200) {
         const timeoutId = setTimeout(() => {
           setLoading(false);
@@ -157,10 +167,14 @@ const BrainstormingDetail = ({ params }) => {
           mutate();
         }, 1000);
         return () => clearTimeout(timeoutId);
+      } else {
+        toast.error(errorData.message);
+        setLoading(false);
       }
     } catch (error) {
       console.error("Error adding comment:", error);
       setError(error.message || 'Something went wrong');
+      setLoading(false);
     }
   };
 

@@ -46,7 +46,7 @@ const FormRegister = ({ setActiveButton }) => {
         body: JSON.stringify({ name, phone, password }),
       });
 
-      const error = await res.json();
+      const errorData = await res.json();
 
       if (res.status === 201) {
         const timeoutId = setTimeout(() => {
@@ -56,11 +56,11 @@ const FormRegister = ({ setActiveButton }) => {
         }, 3000);
         return () => clearTimeout(timeoutId);
       } else {
-        toast.error(error.message);
+        toast.error(errorData.message);
       }
     } catch (error) {
-      console.log(error.message);
-      toast.error(error.message);
+      console.log(errorData.message);
+      toast.error(errorData.message);
     }
   };
 

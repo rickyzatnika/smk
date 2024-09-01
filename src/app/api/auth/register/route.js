@@ -34,7 +34,11 @@ export const POST = async (req = NextRequest) => {
     await newUser.save();
     return new NextResponse("Registered Successfully", { status: 201 });
   } catch (error) {
-    console.log(error.message);
-    return new NextResponse(error.message, { status: 500 });
+    return new NextResponse(
+      JSON.stringify({ message: "internal server error" }),
+      {
+        status: 500,
+      }
+    );
   }
 };
