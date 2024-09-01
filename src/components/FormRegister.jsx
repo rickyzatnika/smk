@@ -38,7 +38,7 @@ const FormRegister = ({ setActiveButton }) => {
       return;
     }
 
-    const errorData = await res.json();
+
 
     try {
       setLoading(true);
@@ -47,6 +47,8 @@ const FormRegister = ({ setActiveButton }) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, phone, password }),
       });
+
+      const errorData = await res.json();
 
       if (res.status === 201) {
         const timeoutId = setTimeout(() => {
