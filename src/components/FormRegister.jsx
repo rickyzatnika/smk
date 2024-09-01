@@ -59,8 +59,8 @@ const FormRegister = ({ setActiveButton }) => {
         toast.error(errorData.message);
       }
     } catch (error) {
-      console.log(errorData.message);
-      toast.error(errorData.message);
+      console.log(error.message);
+      toast.error(error.message);
     }
   };
 
