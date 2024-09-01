@@ -156,7 +156,7 @@ const BrainstormingDetail = ({ params }) => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      const errorData = res.json();
+
 
       if (res.status === 200) {
         const timeoutId = setTimeout(() => {
@@ -169,7 +169,7 @@ const BrainstormingDetail = ({ params }) => {
         }, 1000);
         return () => clearTimeout(timeoutId);
       } else {
-        toast.error(errorData.message);
+        toast.error("Ups something went wrong!");
         setLoading(false);
       }
     } catch (error) {
