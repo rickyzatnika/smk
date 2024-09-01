@@ -57,6 +57,7 @@ const FormRegister = ({ setActiveButton }) => {
         return () => clearTimeout(timeoutId);
       } else {
         toast.error(errorData.message);
+        setLoading(false);
       }
     } catch (error) {
       console.log(error.message);
