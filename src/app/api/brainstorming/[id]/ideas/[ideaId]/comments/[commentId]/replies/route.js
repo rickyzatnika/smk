@@ -51,9 +51,12 @@ export async function POST(req, { params }) {
 
     return new NextResponse(JSON.stringify(comment), { status: 200 });
   } catch (error) {
-    console.error("Error:", error.message);
-    return new NextResponse(JSON.stringify({ message: error.message }), {
-      status: 500,
-    });
+    console.error("Error:", error);
+    return new NextResponse(
+      JSON.stringify({ message: "Internal Server Error" }),
+      {
+        status: 500,
+      }
+    );
   }
 }
