@@ -40,7 +40,7 @@ const FormRegister = ({ setActiveButton }) => {
 
     try {
       setLoading(true);
-      const res = await fetch("/api/auth/register", {
+      const res = await fetch("/api/auth/userRegister", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, phone, password }),
