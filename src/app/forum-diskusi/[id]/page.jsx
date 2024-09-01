@@ -281,7 +281,7 @@ const BrainstormingDetail = ({ params }) => {
   return (
     <>
       <div className="w-full max-w-4xl mx-auto py-4 md:py-8">
-        <div className='flex items-center text-sm py-3 w-full bg-white dark:bg-[#1B1D21] shadow rounded-lg px-2'>
+        <div className='flex items-center text-sm py-3 w-full bg-white dark:bg-[#1B1D21] shadow rounded-lg px-2 mb-4'>
           <Link href="/">Home</Link>
           <span className='mx-1'>/</span>
           <Link href="/forum-diskusi">Back</Link>
