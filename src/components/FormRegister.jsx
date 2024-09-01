@@ -122,6 +122,7 @@ const FormRegister = ({ setActiveButton }) => {
         </div>
       </div>
       <button
+        disabled={loading}
         className="px-4 py-3 rounded uppercase transition-all duration-150 ease-linear bg-gradient-to-tr from-green-500 to-lime-400 text-slate-100 hover:bg-green-500 hover:text-white"
         type="submit"
       >

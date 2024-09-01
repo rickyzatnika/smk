@@ -53,6 +53,7 @@ const Login = () => {
       if (result?.error) {
         // Display error message received from server
         toast.error(result.error);
+        setLoading(false);
       } else if (result?.status === 200) {
         // Get the session to access user role
         const session = await getSession();
@@ -60,13 +61,13 @@ const Login = () => {
 
         const redirectUrl = role === "admin" ? "/dashboard" : "/";
         router.push(redirectUrl);
+        setLoading(false);
       } else {
         toast.error("Login failed. Please check your credentials and try again.");
+        setLoading(false);
       }
-
     } catch (error) {
       toast.error("An unexpected error occurred");
-    } finally {
       setLoading(false);
     }
   };
@@ -119,7 +120,7 @@ const Login = () => {
                     {!passwordVisible ? <TbEyeClosed className="text-gray-400/80" onClick={() => handlePasswordVisible()} /> : <MdOutlineRemoveRedEye className="text-green-400" onClick={handlePasswordVisible} />}
                   </div>
                 </div>
-                <button className="px-6 py-3 text-white uppercase transition-all duration-150 ease-linear bg-gradient-to-tr from-green-500 to-lime-400 rounded-md hover:bg-green-500">
+                <button disabled={loading} className="px-6 py-3 text-white uppercase transition-all duration-150 ease-linear bg-gradient-to-tr from-green-500 to-lime-400 rounded-md hover:bg-green-500">
                   {loading ? <div className="flex items-center justify-center gap-2"><span>Loading...</span><span className="loader"></span></div> : "Masuk"}
                 </button>
               </form>
