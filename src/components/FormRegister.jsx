@@ -38,6 +38,8 @@ const FormRegister = ({ setActiveButton }) => {
       return;
     }
 
+    const errorData = await res.json();
+
     try {
       setLoading(true);
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_PRO}/api/register`, {
@@ -54,12 +56,12 @@ const FormRegister = ({ setActiveButton }) => {
         }, 3000);
         return () => clearTimeout(timeoutId);
       } else {
-        toast.error("ups something went wrong, please try again");
+        toast.error(errorData.message);
         setLoading(false);
       }
     } catch (error) {
       console.log(error.message);
-      toast.error("Internal Server error!! Try again later", error);
+      toast.error("Internal Server error!! Try again later");
       setLoading(false);
     }
   };
