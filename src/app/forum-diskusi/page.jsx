@@ -33,6 +33,7 @@ export default function BrainstormingPage() {
             <p className='text-sm leading-relaxed text-gray-500 dark:text-gray-300/80'>Ini adalah forum untuk diskusi seputar kegiatan sekolah, panduan, tips belajar, ekstrakurikuler, acara sekolah, dan topik lain yang berkaitan dengan SMK ICB secara umum. Jika Anda memiliki pertanyaan terkait kegiatan atau informasi yang tidak termasuk dalam kategori forum khusus, silakan gunakan forum ini untuk diskusi atau bertanya. Forum ini bukanlah tempat untuk konsultasi akademik atau tugas sekolah yang spesifik, melainkan wadah untuk berbagi informasi dan pengalaman yang bermanfaat bagi seluruh warga sekolah.</p>
           </div>
           <div className="flex flex-col w-full shadow-lg shadow-gray-200 dark:shadow-[#111]/60">
+
             <div className='w-full uppercase font-medium bg-lime-600 py-3  px-4 '>
               <p className='text-center text-white text-lg flex justify-start'>General Topic</p>
             </div>
