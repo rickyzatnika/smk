@@ -12,6 +12,7 @@ import Image from 'next/image';
 import EmojiPicker, { Emoji } from 'emoji-picker-react';
 import { toast } from 'react-toastify';
 import { BsReplyAll } from "react-icons/bs";
+import Link from 'next/link';
 
 const fetcher = async (url, token) => {
   const response = await axios.get(url, {
@@ -128,8 +129,16 @@ const BrainstormingDetail = ({ params }) => {
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
-    if (!newComment || !selectedIdeaId || !session?.user?.name) return;
+
     try {
+      setLoading(true);
+
+      if (!newComment || !selectedIdeaId || !session?.user?.name) {
+        toast.error("Field required!");
+        setLoading(false);
+        return;
+      };
+
       let imageUrl = "";
 
       if (commentImage) {
@@ -147,6 +156,8 @@ const BrainstormingDetail = ({ params }) => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
+
+
       if (res.status === 200) {
         const timeoutId = setTimeout(() => {
           setLoading(false);
@@ -157,10 +168,14 @@ const BrainstormingDetail = ({ params }) => {
           mutate();
         }, 1000);
         return () => clearTimeout(timeoutId);
+      } else {
+        toast.error("Ups something went wrong!");
+        setLoading(false);
       }
     } catch (error) {
       console.error("Error adding comment:", error);
       setError(error.message || 'Something went wrong');
+      setLoading(false);
     }
   };
 
@@ -265,7 +280,12 @@ const BrainstormingDetail = ({ params }) => {
 
   return (
     <>
-      <div className="w-full max-w-4xl mx-auto py-8">
+      <div className="w-full max-w-4xl mx-auto py-4 md:py-8">
+        <div className='flex items-center text-sm py-3 w-full bg-white dark:bg-[#1B1D21] shadow rounded-lg px-2 mb-4 italic'>
+          <Link href="/">Home</Link>
+          <span className='mx-1'>/</span>
+          <Link href="/forum-diskusi">Back</Link>
+        </div>
         <div className='p-6 bg-white dark:bg-[#1B1D21] rounded-lg shadow-md mb-8 '>
           <h1 className="text-2xl font-bold mb-2 text-gray-700 dark:text-gray-200/90">{brains?.title}</h1>
           <p className="text-gray-500 dark:text-gray-300/80 mb-4">{brains?.description}</p>

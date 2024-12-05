@@ -33,6 +33,7 @@ export default function BrainstormingPage() {
             <p className='text-sm leading-relaxed text-gray-500 dark:text-gray-300/80'>Ini adalah forum untuk diskusi seputar kegiatan sekolah, panduan, tips belajar, ekstrakurikuler, acara sekolah, dan topik lain yang berkaitan dengan SMK ICB secara umum. Jika Anda memiliki pertanyaan terkait kegiatan atau informasi yang tidak termasuk dalam kategori forum khusus, silakan gunakan forum ini untuk diskusi atau bertanya. Forum ini bukanlah tempat untuk konsultasi akademik atau tugas sekolah yang spesifik, melainkan wadah untuk berbagi informasi dan pengalaman yang bermanfaat bagi seluruh warga sekolah.</p>
           </div>
           <div className="flex flex-col w-full shadow-lg shadow-gray-200 dark:shadow-[#111]/60">
+
             <div className='w-full uppercase font-medium bg-lime-600 py-3  px-4 '>
               <p className='text-center text-white text-lg flex justify-start'>General Topic</p>
             </div>
@@ -49,11 +50,11 @@ export default function BrainstormingPage() {
                   </div>
                 </div>
                 <div className='px-2 md:px-8 flex flex-row md:flex-col py-2 md:py-4 bg-[#1B1D21] md:bg-transparent w-full md:w-1/2 md:items-start items-center justify-between md:justify-start'>
-                  <p className='text-sm font-medium flex gap-2 text-gray-100/80 py-2'>
+                  <p className='text-sm font-medium flex gap-2 text-gray-600 dark:text-gray-300 py-2'>
                     <FaUserCircle size={24} />
                     {session?.creator}
                   </p>
-                  <span className='text-xs text-gray-100/80 py-0.5 '>{moment(session?.createdAt).format("LLL")}</span>
+                  <span className='text-xs text-gray-600 dark:text-gray-300 py-0.5 '>{moment(session?.createdAt).format("LLL")}</span>
 
                 </div>
               </div>

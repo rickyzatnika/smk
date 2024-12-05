@@ -10,11 +10,11 @@ export const GET = async (req = NextRequest) => {
   const token = await getToken({ req });
   const userId = token?._id; // Mendapatkan user ID dari token
 
-  if (!userId) {
-    return new NextResponse(JSON.stringify({ message: "Ups sorry" }), {
-      status: 401,
-    });
-  }
+  // if (!userId) {
+  //   return new NextResponse(JSON.stringify({ message: "Ups sorry" }), {
+  //     status: 401,
+  //   });
+  // }
 
   try {
     const url = new URL(req.url);

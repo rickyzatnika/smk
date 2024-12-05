@@ -6,7 +6,7 @@ import { NextResponse, NextRequest } from "next/server";
 export const POST = async (req = NextRequest) => {
   await connect();
 
-  const { name, phone, password, role } = await req.json();
+  const { name, phone, password } = await req.json();
   if (!name || !phone || !password) {
     return new NextResponse(JSON.stringify({ message: "Field Required!" }), {
       status: 400,
@@ -29,12 +29,20 @@ export const POST = async (req = NextRequest) => {
       name,
       phone,
       password: hashedPassword,
-      role,
     });
     await newUser.save();
-    return new NextResponse("Registered Successfully", { status: 201 });
+    return new NextResponse(
+      JSON.stringify({ message: "Registered Successfully" }),
+      {
+        status: 201,
+      }
+    );
   } catch (error) {
-    console.log(error.message);
-    return new NextResponse(error.message, { status: 500 });
+    return new NextResponse(
+      JSON.stringify({ message: "internal server error" }),
+      {
+        status: 500,
+      }
+    );
   }
 };

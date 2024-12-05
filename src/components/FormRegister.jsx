@@ -38,15 +38,16 @@ const FormRegister = ({ setActiveButton }) => {
       return;
     }
 
+
+
     try {
       setLoading(true);
-      const res = await fetch("/api/auth/register", {
+      const res = await fetch(`/api/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, phone, password }),
       });
-
-      const error = await res.json();
+      const errorData = await res.json();
 
       if (res.status === 201) {
         const timeoutId = setTimeout(() => {
@@ -56,11 +57,13 @@ const FormRegister = ({ setActiveButton }) => {
         }, 3000);
         return () => clearTimeout(timeoutId);
       } else {
-        toast.error(error.message);
+        toast.error(errorData?.message);
+        setLoading(false);
       }
     } catch (error) {
       console.log(error.message);
-      toast.error(error.message);
+      toast.error("Internal Server error!! Try again later");
+      setLoading(false);
     }
   };
 
@@ -120,6 +123,7 @@ const FormRegister = ({ setActiveButton }) => {
         </div>
       </div>
       <button
+        disabled={loading}
         className="px-4 py-3 rounded uppercase transition-all duration-150 ease-linear bg-gradient-to-tr from-green-500 to-lime-400 text-slate-100 hover:bg-green-500 hover:text-white"
         type="submit"
       >
