@@ -13,6 +13,7 @@ import { usePathname } from "next/navigation";
 import { ThemeContext } from "@/context/ThemeContext";
 import { TbRouteScan } from "react-icons/tb";
 import { dropLink } from "@/utils/dropLink";
+import { MdOutlineManageHistory } from "react-icons/md";
 
 
 const MobileNav = ({ setShowMenu, showMenu }) => {
@@ -46,6 +47,11 @@ const MobileNav = ({ setShowMenu, showMenu }) => {
           <div onClick={() => setShowMenu(false)} className={`flex gap-2 w-full border-b pb-2 ${pathname === "/informasi" ? "text-lime-500 border-lime-500" : "border-gray-400 dark:border-gray-600 text-gray-600/80 dark:text-gray-400"}`}>
             <BiSolidBookContent size={24} />
             <Link className="text-md uppercase" href={"/informasi"}>Informasi</Link>
+          </div>
+          <div className={`flex gap-2 w-full border-b pb-2 border-gray-400 dark:border-gray-600 text-gray-600/80 dark:text-gray-400`}>
+
+            <MdOutlineManageHistory size={24} />
+            <Link className="text-md uppercase" href="https://sistem-informasi-management.vercel.app/dashboard" target="_blank">SIM</Link>
           </div>
           <button type="button" onClick={() => setShowMajor(prev => !prev)} className="outline-none focus-visible:outline-none border-b pb-2 flex items-center justify-between w-full border-gray-400 dark:border-gray-600 text-gray-600/80 dark:text-gray-400">
             <span className="flex gap-2">

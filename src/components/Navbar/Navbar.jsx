@@ -120,6 +120,9 @@ const Navbar = () => {
         >
           Pendaftaran
         </Link>
+        <Link className="font-medium text-gray-500 hover:text-lime-500 pb-2" href="https://sistem-informasi-management.vercel.app/dashboard" target="_blank">
+          SIM
+        </Link>
         {status === "authenticated" && session?.user?.role === "user" ? (
           <>
             <Link
